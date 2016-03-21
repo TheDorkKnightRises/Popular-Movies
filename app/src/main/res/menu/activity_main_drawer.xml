@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item android:title="@string/sorting">
+            <menu>
+            <item
+                android:id="@+id/nav_pop"
+                android:icon="@drawable/ic_trending_up_white_24px"
+                android:title="@string/pop" />
+            <item
+                android:id="@+id/nav_high"
+                android:icon="@drawable/vector_drawable_ic_grade_white_24px"
+                android:title="@string/high" />
+            <item
+                android:id="@+id/nav_up"
+                android:icon="@drawable/ic_new_releases_white_24px"
+                android:title="@string/up" />
+            <item
+                android:id="@+id/nav_now"
+                android:icon="@drawable/ic_local_play_white_24px"
+                android:title="@string/now" />
+            <item
+                android:id="@+id/nav_fav"
+                android:icon="@drawable/vector_drawable_ic_favorite_white_24px"
+                android:title="@string/fav" />
+            </menu>
+        </item>
+    </group>
+
+    <group>
+        <item
+            android:title="@string/action_about"
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_white_24px" />
+        <item
+            android:title="@string/action_settings"
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_white_24px" />
+    </group>
+
+</menu>
