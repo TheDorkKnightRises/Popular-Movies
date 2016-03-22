@@ -5,4 +5,7 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="horizontal_margin_half">32dp</dimen>
     <dimen name="poster_w">780px</dimen>
+    <dimen name="extended_height">300dp</dimen>
+    <dimen name="fab_margin">32dp</dimen>
+    <integer name="num_col">4</integer>
 </resources>

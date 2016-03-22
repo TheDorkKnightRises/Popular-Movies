@@ -2,21 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <GridView
         android:id="@+id/gridview"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:paddingTop="36dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_padding"
+        android:paddingRight="@dimen/horizontal_padding"
+        android:paddingTop="32dp"
+        android:layout_marginTop="?attr/actionBarSize"
         android:verticalSpacing="4dp"
         android:horizontalSpacing="4dp"
-        android:gravity="center"
         android:clickable="true"
-        android:numColumns="2"/>
+        android:numColumns="@integer/num_col"/>
 
 </LinearLayout>

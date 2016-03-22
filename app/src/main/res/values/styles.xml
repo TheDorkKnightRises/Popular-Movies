@@ -21,6 +21,11 @@
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
     </style>
+    
+    <style name="TextAppearance.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="Cards">
         <item name="android:layout_width">match_parent</item>

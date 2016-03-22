@@ -4,11 +4,9 @@ package thedorkknightrises.moviespop;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -20,12 +18,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +38,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     GridView mGridView;
+    public ArrayList<MovieObj> movieResults = new ArrayList<>();
 
 
     @Override
@@ -90,8 +85,37 @@ public class MainActivity extends AppCompatActivity
 
         mGridView=(GridView) findViewById(R.id.gridview);
 
-        populateMovies();
+        TextView label= (TextView) findViewById(R.id.label);
 
+        SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
+        String s=pref.getString("sort","popular");
+        if (s.equals("popular"))
+            label.setText(getString(R.string.pop));
+        else if (s.equals("top_rated"))
+            label.setText(getString(R.string.high));
+        else if (s.equals("fav"))
+            label.setText(getString(R.string.fav));
+        else if (s.equals("upcoming"))
+            label.setText(getString(R.string.up));
+        else if (s.equals("now_playing"))
+            label.setText(R.string.now);
+
+        if(savedInstanceState==null)
+            populateMovies();
+        else {
+            movieResults=(ArrayList<MovieObj>) savedInstanceState.getSerializable("results");
+            GridViewAdapter mAdapter= new GridViewAdapter(this, movieResults);
+            mGridView.setAdapter(mAdapter);
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state)
+    {
+        super.onSaveInstanceState(state);
+
+        state.putSerializable("results", movieResults);
     }
 
     public void onClick(View v)
@@ -184,21 +208,8 @@ public class MainActivity extends AppCompatActivity
 
     public void populateMovies() {
 
-        TextView label= (TextView) findViewById(R.id.label);
-
-        SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
-        String s=pref.getString("sort","popular");
-        if (s.equals("popular"))
-            label.setText(getString(R.string.pop));
-        else if (s.equals("top_rated"))
-            label.setText(getString(R.string.high));
-        else if (s.equals("fav"))
-            label.setText(getString(R.string.fav));
-        else if (s.equals("upcoming"))
-            label.setText(getString(R.string.up));
-        else if (s.equals("now_playing"))
-            label.setText(R.string.now);
         new FetchSearchResults(this, mGridView).execute("discover");
+
     }
 
 
@@ -206,7 +217,6 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences pref= getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         Context context;
-        public ArrayList<MovieObj> movieResults = new ArrayList<>();
         public GridViewAdapter searchAdapter;
         GridView gridView;
 

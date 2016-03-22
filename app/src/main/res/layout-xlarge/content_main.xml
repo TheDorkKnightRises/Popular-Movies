@@ -6,16 +6,16 @@
 
     <GridView
         android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:verticalSpacing="16dp"
-        android:horizontalSpacing="16dp"
         android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp"
         android:clickable="true"
-        android:numColumns="3"/>
+        android:numColumns="@integer/num_col"/>
 
 </LinearLayout>

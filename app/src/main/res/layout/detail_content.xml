@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/detail" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".Details">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -19,27 +27,19 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mtitle"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:text="Title"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
                 <ImageView
                     android:layout_width="@dimen/poster_w"
                     android:layout_height="wrap_content"
                     android:minHeight="128dp"
-                    android:layout_below="@id/mtitle"
                     android:id="@+id/poster"
                     android:src="@drawable/ic_photo_white_24px"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/mtitle"
                         android:id="@+id/rate_text"
                         android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_marginRight="@dimen/horizontal_margin_half"
                         android:text="@string/rating"
                         android:textStyle="bold"
@@ -58,8 +58,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/mvote"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_marginRight="@dimen/horizontal_margin_half"
+                        android:layout_marginEnd="@dimen/horizontal_margin_half"
                         android:text="@string/release"
                         android:id="@+id/rel_text"
                         android:textStyle="bold"
@@ -69,10 +71,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rel_text"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/horizontal_margin_half"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/horizontal_padding"
+                        android:layout_marginEnd="@dimen/horizontal_padding"
                         android:layout_marginTop="@dimen/vertical_margin_half"
+                        android:textSize="@dimen/text_large"
                         android:text="01-01-1970"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:id="@+id/mdate"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -155,3 +160,4 @@
     </ScrollView>
 
 </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

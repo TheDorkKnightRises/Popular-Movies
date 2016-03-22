@@ -1,9 +1,11 @@
 package thedorkknightrises.moviespop;
 
+import java.io.Serializable;
+
 /**
- * Created by samri_000 on 3/19/2016.
+ * Created by samri_000 on 3/19/2016
  */
-public class MovieObj {
+public class MovieObj implements Serializable {
     public String getTitle() {
         return title;
     }
