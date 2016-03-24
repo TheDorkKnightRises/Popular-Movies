@@ -123,11 +123,13 @@ public class MainActivity extends AppCompatActivity
         int p=mGridView.getPositionForView(v);
         MovieObj m= (MovieObj) mGridView.getItemAtPosition(p);
         Intent i=new Intent(MainActivity.this, Details.class);
+        i.putExtra("id", m.id);
         i.putExtra("title", m.title);
         i.putExtra("release_date", m.year);
         i.putExtra("vote_avg", m.vote_avg);
         i.putExtra("plot", m.plot);
         i.putExtra("poster", m.posterUrl);
+        i.putExtra("bg", m.bgUrl);
         startActivity(i);
     }
 
@@ -172,24 +174,31 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences pref= getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
+        TextView label= (TextView) findViewById(R.id.label);
+
         if (id == R.id.nav_fav) {
             edit.putString("sort", "fav");
+            label.setText(getString(R.string.fav));
             edit.commit();
             populateMovies();
         } else if (id == R.id.nav_pop) {
             edit.putString("sort", "popular");
+            label.setText(getString(R.string.pop));
             edit.commit();
             populateMovies();
         } else if (id == R.id.nav_high) {
             edit.putString("sort", "top_rated");
+            label.setText(getString(R.string.high));
             edit.commit();
             populateMovies();
         } else if (id == R.id.nav_up) {
             edit.putString("sort", "upcoming");
+            label.setText(getString(R.string.up));
             edit.commit();
             populateMovies();
         } else if (id == R.id.nav_now) {
             edit.putString("sort", "now_playing");
+            label.setText(R.string.now);
             edit.commit();
             populateMovies();
         } else if (id == R.id.nav_about) {
@@ -245,7 +254,7 @@ public class MainActivity extends AppCompatActivity
             BufferedReader bufferedReader = null;
             String searchJSONstr = null;
             final String SEARCH_BASE_URL =
-                    "http://api.themoviedb.org/3/movie";
+                    "https://api.themoviedb.org/3/movie";
             final String API_KEY = getString(R.string.api_key);
             final String API_KEY_PARAM = "api_key";
 
@@ -328,27 +337,38 @@ public class MainActivity extends AppCompatActivity
         private ArrayList<MovieObj> getSearchDataFromJson(String searchJSONstr)
                 throws Exception {
             final String LIST_NAME = "results";
+            final String MOVIE_ID = "id";
             final String MOVIE_TITLE = "original_title";
             final String MOVIE_YEAR = "release_date";
             final String VOTE_AVG = "vote_average";
             final String MOVIE_POSTER_URL = "poster_path";
+            final String BACKDROP_URL = "backdrop_path";
             final String MOVIE_PLOT = "overview";
 
                 JSONObject searchResult = new JSONObject(searchJSONstr);
-                JSONArray movieArray = searchResult.getJSONArray(LIST_NAME);
+                int totalResults= searchResult.getInt("total_results");
+                if(totalResults==0) {
+                    Snackbar snack = Snackbar.make(gridView, getString(R.string.no_results), Snackbar.LENGTH_LONG);
+                    snack.setAction("Action", null);
+                    snack.show();
+                }
+            JSONArray movieArray = searchResult.getJSONArray(LIST_NAME);
 
             String res=pref.getString("res", "w185");
+            String res_bg=pref.getString("res_bg", "w780");
             Log.d("movieArray", movieArray.toString());
 
             for (int i = 0; i < movieArray.length(); i++) {
                 JSONObject movieObject = movieArray.getJSONObject(i);
+                int id = movieObject.getInt(MOVIE_ID);
                 String title = movieObject.getString(MOVIE_TITLE);
                 String posterUrl = movieObject.getString(MOVIE_POSTER_URL);
                 String year = movieObject.getString(MOVIE_YEAR);
                 String plot = movieObject.getString(MOVIE_PLOT);
                 String vote_avg = movieObject.getString(VOTE_AVG);
+                String bgUrl = movieObject.getString(BACKDROP_URL);
 
-                movieResults.add(new MovieObj(title, year, vote_avg, "https://image.tmdb.org/t/p/" + res + posterUrl, plot));
+                movieResults.add(new MovieObj(id, title, year, vote_avg, "https://image.tmdb.org/t/p/" + res + posterUrl, plot, "https://image.tmdb.org/t/p/" + res_bg + bgUrl));
             }
 
             return movieResults;

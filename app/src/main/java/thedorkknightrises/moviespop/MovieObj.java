@@ -6,6 +6,10 @@ import java.io.Serializable;
  * Created by samri_000 on 3/19/2016
  */
 public class MovieObj implements Serializable {
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
     public String getTitle() {
         return title;
     }
@@ -30,6 +34,14 @@ public class MovieObj implements Serializable {
         this.posterUrl = posterUrl;
     }
 
+    public String getBackdropUrl() {
+        return posterUrl;
+    }
+
+    public void setBackdropUrl(String bgUrl) {
+        this.bgUrl = bgUrl;
+    }
+
     public String getPlot() {
         return plot;
     }
@@ -42,18 +54,22 @@ public class MovieObj implements Serializable {
 
     public void setRating(String vote_avg) { this.vote_avg = vote_avg; }
 
+    int id;
     String title;
     String year;
     String posterUrl;
+    String bgUrl;
     String plot;
     String vote_avg;
 
-    public MovieObj(String t, String y, String v, String p, String mPlot) {
+    public MovieObj(int i, String t, String y, String v, String p, String mPlot, String bg) {
+        this.id = i;
         this.title = t;
         this.plot = mPlot;
         this.year = y;
         this.posterUrl = p;
         this.vote_avg = v;
+        this.bgUrl = bg;
     }
 }
 
