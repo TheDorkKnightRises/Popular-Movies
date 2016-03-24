@@ -6,6 +6,7 @@
 
     <string name="close">Close</string>
     <string name="refresh">Refresh</string>
+    <string name="share">Share</string>
 
     <string name="action_about">About</string>
     <string name="action_settings">Settings</string>
@@ -35,12 +36,16 @@
     <string name="intro4">Open the details for a movie and tap the Floating Action Button to add to Favorites. Favorites are stored offline!</string>
 
     <string name="head_thumb">Thumbnail options</string>
-    <string name="resolution">Thumbnail quality:</string>
+    <string name="res_thumb">Thumbnail quality:</string>
+    <string name="head_detail">Details view options</string>
+    <string name="bg_toggle">Backdrop enabled</string>
+    <string name="res_bg">Backdrop resolution:</string>
     <string name="res_def">Default is medium</string>
     <string name="low_res">Low</string>
     <string name="med_res">Medium</string>
     <string name="hi_res">High</string>
     <string name="max_res">Maximum</string>
+    <string name="def_bgtoggle">Show backdrop in details view</string>
 
     <string name="synopsis">Synopsis</string>
     <string name="release">Release date</string>
@@ -49,5 +54,6 @@
     <string name="review">Reviews</string>
 
     <string name="network">Unable to connect to network</string>
+    <string name="no_results">No results returned. Try again later</string>
     <string name="fav_error">Favorites coming soon :D</string>
 </resources>

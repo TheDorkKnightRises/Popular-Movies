@@ -16,6 +16,6 @@
         android:verticalSpacing="16dp"
         android:horizontalSpacing="16dp"
         android:clickable="true"
-        android:numColumns="@integer/num_col"/>
+        android:numColumns="auto_fit"/>
 
 </LinearLayout>

@@ -64,6 +64,7 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
         MovieObj movie = movies.get(position);
         Glide.with(context).load(movie.getPosterUrl())
                 .placeholder(R.drawable.ic_photo_white_24px)
+                .error(R.drawable.ic_photo_white_24px)
                 .into(holder.posterView);
         return convertView;
     }

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:clickable="true"
+        android:onClick="onClick"
         android:foreground="?android:attr/selectableItemBackground" />
 
 </LinearLayout>
