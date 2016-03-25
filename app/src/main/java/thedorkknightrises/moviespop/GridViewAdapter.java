@@ -1,8 +1,6 @@
 package thedorkknightrises.moviespop;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +63,7 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
         Glide.with(context).load(movie.getPosterUrl())
                 .placeholder(R.drawable.ic_photo_white_24px)
                 .error(R.drawable.ic_photo_white_24px)
+                .crossFade(500)
                 .into(holder.posterView);
         return convertView;
     }

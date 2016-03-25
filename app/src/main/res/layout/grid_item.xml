@@ -11,6 +11,7 @@
         android:adjustViewBounds="true"
         android:clickable="true"
         android:onClick="onClick"
+        android:background="?android:attr/selectableItemBackground"
         android:foreground="?android:attr/selectableItemBackground" />
 
 </LinearLayout>

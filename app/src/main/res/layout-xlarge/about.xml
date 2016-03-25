@@ -41,7 +41,7 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/elevation"
         app:cardBackgroundColor="@color/cardview_dark_background"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground">
@@ -90,7 +90,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:clickable="true"
         app:cardUseCompatPadding="true"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/elevation"
         app:cardBackgroundColor="@color/cardview_dark_background"
         android:foreground="?android:attr/selectableItemBackground">
         <RelativeLayout

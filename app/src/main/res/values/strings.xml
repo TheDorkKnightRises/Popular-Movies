@@ -16,7 +16,7 @@
     <string name="desc3">Powered by The Movie Database</string>
     <string name="desc4">Icon credits: Moonshine Icon Pack by Pedro Peguero Jr. (under Creative Commons 4.0 License)</string>
     <string name="nav_sec">Powered by The Movie Database</string>
-    <string name="oss">Libraries</string>
+    <string name="oss">Credits</string>
     <string name="fork">Fork on GitHub</string>
     <string name="site">Website</string>
     <string name="git">GitHub</string>
@@ -38,14 +38,16 @@
     <string name="head_thumb">Thumbnail options</string>
     <string name="res_thumb">Thumbnail quality:</string>
     <string name="head_detail">Details view options</string>
-    <string name="bg_toggle">Backdrop enabled</string>
     <string name="res_bg">Backdrop resolution:</string>
     <string name="res_def">Default is medium</string>
     <string name="low_res">Low</string>
     <string name="med_res">Medium</string>
     <string name="hi_res">High</string>
     <string name="max_res">Maximum</string>
+    <string name="bg_toggle">Enable backdrop</string>
     <string name="def_bgtoggle">Show backdrop in details view</string>
+    <string name="palette_toggle">Enable dynamic coloring</string>
+    <string name="def_palettetoggle">Automagically extracts and applies colors from the poster to the details screen</string>
 
     <string name="synopsis">Synopsis</string>
     <string name="release">Release date</string>
@@ -53,7 +55,9 @@
     <string name="trailer">Trailers</string>
     <string name="review">Reviews</string>
 
-    <string name="network">Unable to connect to network</string>
+    <string name="network">Unable to fetch content from server. Please check your connection or try again later</string>
+    <string name="refresh_error">Faied to  refresh content from server. Check your network status</string>
     <string name="no_results">No results returned. Try again later</string>
+    <string name="content">Failed to retrieve all content. Check connection or try again later</string>
     <string name="fav_error">Favorites coming soon :D</string>
 </resources>

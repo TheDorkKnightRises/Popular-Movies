@@ -102,12 +102,14 @@
                 android:gravity="center_vertical"
                 android:textSize="@dimen/text_small"
                 android:text="@string/head_detail"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
+                android:onClick="onCheckedChange"
                 android:paddingLeft="@dimen/vertical_margin_half"
                 android:paddingRight="@dimen/vertical_margin_half"
                 android:paddingTop="@dimen/activity_horizontal_margin"
@@ -123,7 +125,7 @@
                     android:layout_marginStart="@dimen/horizontal_margin_half"
                     android:textSize="@dimen/text_med"
                     android:textColor="#ffffffff"
-                    android:text="@string/bg_toggle" />
+                    android:text="@string/bg_toggle"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +150,6 @@
                     android:clickable="true"
                     android:onClick="onCheckedChange"
                     android:layout_centerVertical="true"/>
-
             </RelativeLayout>
 
             <RelativeLayout

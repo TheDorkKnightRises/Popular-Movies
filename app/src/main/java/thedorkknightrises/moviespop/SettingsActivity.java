@@ -48,13 +48,13 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
         Spinner sp= (Spinner) findViewById(R.id.spinner_thumb);
         Spinner sp_bg= (Spinner) findViewById(R.id.spinner_bg);
-        SwitchCompat ch= (SwitchCompat) findViewById(R.id.bg_check);
+        SwitchCompat ch_bg= (SwitchCompat) findViewById(R.id.bg_check);
 
         SharedPreferences pref= getSharedPreferences("Prefs", MODE_PRIVATE);
 
         int pos= pref.getInt("pos", 1);
         int pos_bg= pref.getInt("pos_bg", 1);
-        ch.setChecked(pref.getBoolean("bg_enabled", true));
+        ch_bg.setChecked(pref.getBoolean("bg_enabled", true));
         sp.setSelection(pos);
         sp_bg.setSelection(pos_bg);
         sp_bg.setEnabled(pref.getBoolean("bg_enabled", true));
@@ -64,10 +64,13 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     {
         SharedPreferences pref= getSharedPreferences("Prefs", MODE_PRIVATE);
         Spinner sp_bg= (Spinner) findViewById(R.id.spinner_bg);
+        SwitchCompat ch_bg= (SwitchCompat)findViewById(R.id.bg_check);
         Boolean b= pref.getBoolean("bg_enabled", true);
         SharedPreferences.Editor e = pref.edit();
         e.putBoolean("bg_enabled", !b);
         e.commit();
+        if(!v.equals(ch_bg))
+            ch_bg.toggle();
         sp_bg.setEnabled(!b);
     }
 

@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -122,9 +124,12 @@ public class Details extends AppCompatActivity {
 
         SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
 
+        new getBitmap(post).execute();
+
         CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
         c.setTitle(t);
         c.setExpandedTitleTextAppearance(R.style.TextAppearance_Medium);
+
         TextView plot= (TextView) findViewById(R.id.mplot);
         TextView date= (TextView) findViewById(R.id.mdate);
         TextView vote= (TextView) findViewById(R.id.mvote);
@@ -136,12 +141,13 @@ public class Details extends AppCompatActivity {
         vote.setText(v);
         Glide.with(this)
                 .load(post)
+                .crossFade(500)
                 .error(R.drawable.ic_photo_white_24px)
                 .into(poster);
         if(pref.getBoolean("bg_enabled", true)) {
             Glide.with(this)
                     .load(back)
-                    .error(R.drawable.ic_photo_white_24px)
+                    .crossFade(750)
                     .into(backdrop);
         }
 
@@ -153,13 +159,47 @@ public class Details extends AppCompatActivity {
             }
         });
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Bitmap bmp= getBitmapFromURL(post);
-        Bitmap bmp_bg= getBitmapFromURL(back);
-        Palette palette= Palette.generate(bmp);
-        Palette palette_bg= Palette.generate(bmp_bg);
-        try {
+    }
+
+    public void OnFabClick(View v)
+    {
+        Snackbar.make(v, R.string.fav_error, Snackbar.LENGTH_LONG).show();
+    }
+
+
+    public class getBitmap extends AsyncTask<String, Void, Bitmap>
+    {
+        String src;
+        Bitmap bit;
+
+        public getBitmap(String url)
+        {
+            src= url;
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                bit= BitmapFactory.decodeStream(input);
+            } catch (IOException e) {
+                e.printStackTrace();
+                bit= null;
+            }
+            return bit;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bmp)
+        {
+            super.onPostExecute(bmp);
+            try {
+                Palette palette= Palette.generate(bmp);
+                CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
+
                 if(palette.getDarkVibrantSwatch()!=null) {
                     c.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
                     c.setBackgroundColor(palette.getDarkVibrantSwatch().getRgb());
@@ -171,37 +211,27 @@ public class Details extends AppCompatActivity {
                     c.setStatusBarScrimColor(palette.getDarkMutedSwatch().getRgb());
                 }
                 FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
-                if(palette_bg.getVibrantSwatch()!=null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette_bg.getVibrantSwatch().getRgb()));
-                else if (palette_bg.getLightVibrantSwatch()!=null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette_bg.getLightVibrantSwatch().getRgb()));
-                else if (palette_bg.getDarkVibrantSwatch()!=null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette_bg.getDarkVibrantSwatch().getRgb()));
-                else if(palette.getVibrantSwatch()!=null)
+                if(palette.getVibrantSwatch()!=null)
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantSwatch().getRgb()));
                 else if (palette.getLightVibrantSwatch()!=null)
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightVibrantSwatch().getRgb()));
-
-                if(palette_bg.getDarkVibrantSwatch()!=null)
-                    fab.setRippleColor(palette_bg.getDarkVibrantSwatch().getRgb());
+                else if (palette.getDarkVibrantSwatch()!=null)
+                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getDarkVibrantSwatch().getRgb()));
                 else
-                    fab.setRippleColor(palette_bg.getVibrantSwatch().getRgb());
+                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightMutedColor(Color.parseColor("#ff315b"))));
+
+                if(palette.getDarkMutedSwatch()!=null)
+                    fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
+                else if(palette.getMutedSwatch()!=null)
+                    fab.setRippleColor(palette.getMutedSwatch().getRgb());
                 findViewById(R.id.detail_scroll).setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
 
-        } catch (NullPointerException e) { e.printStackTrace(); }
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                Snackbar.make(findViewById(R.id.fab), R.string.network, Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 

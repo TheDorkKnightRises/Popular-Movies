@@ -11,8 +11,7 @@
         android:adjustViewBounds="true"
         android:clickable="true"
         android:onClick="onClick"
-        android:transitionName="abc"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"/>
+        android:foreground="?android:attr/selectableItemBackground"/>
 
 </LinearLayout>

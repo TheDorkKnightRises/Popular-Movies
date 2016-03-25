@@ -39,7 +39,7 @@
         android:layout_below="@id/aboutName"
         android:layout_marginRight="@dimen/horizontal_margin_half"
         android:layout_marginLeft="@dimen/horizontal_margin_half"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/elevation"
         app:cardBackgroundColor="@color/cardview_dark_background"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground">
@@ -87,7 +87,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/horizontal_margin_half"
         android:layout_marginLeft="@dimen/horizontal_margin_half"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/elevation"
         app:cardBackgroundColor="@color/cardview_dark_background"
         android:foreground="?android:attr/selectableItemBackground">
         <RelativeLayout

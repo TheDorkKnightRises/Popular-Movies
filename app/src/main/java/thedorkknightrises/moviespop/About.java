@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -39,6 +38,9 @@ public class About extends AppCompatActivity {
     {
         new LibsBuilder()
                 .withActivityTitle(getString(R.string.oss))
+                .withAboutIconShown(true)
+                .withLicenseDialog(true)
+                .withAboutDescription(getString(R.string.desc4))
                 .withActivityTheme(R.style.AboutLibrariesTheme)
                 //start the activity
                 .start(this);

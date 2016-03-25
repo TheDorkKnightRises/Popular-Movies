@@ -4,8 +4,8 @@ package thedorkknightrises.moviespop;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -14,24 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -43,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -83,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         // Start the thread
         t.start();
 
-        mGridView=(GridView) findViewById(R.id.gridview);
+        mGridView= (GridView) findViewById(R.id.gridview);
 
         TextView label= (TextView) findViewById(R.id.label);
 
@@ -149,7 +138,12 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            populateMovies();
+            if(isConnected(this)) {
+                mGridView.removeAllViewsInLayout();
+                populateMovies();
+            }
+            else
+                Snackbar.make(mGridView, R.string.refresh_error, Snackbar.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -217,175 +211,18 @@ public class MainActivity extends AppCompatActivity
 
     public void populateMovies() {
 
-        new FetchSearchResults(this, mGridView).execute("discover");
+        new FetchSearchResults(this, mGridView, movieResults, getSharedPreferences("Prefs", MODE_PRIVATE)).execute("discover");
 
     }
 
-
-    public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieObj>> {
-
-        SharedPreferences pref= getSharedPreferences("Prefs", Context.MODE_PRIVATE);
-        Context context;
-        public GridViewAdapter searchAdapter;
-        GridView gridView;
-
-        Uri buildUri;
-
-        public FetchSearchResults(Context c, GridView v) {
-            super();
-            context = c;
-            gridView = v;
+    public static boolean isConnected(Context context) {
+        if (context == null) {
+            return true;
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (!movieResults.isEmpty()) {
-                movieResults.clear();
-            }
-        }
-
-        @Override
-        protected ArrayList<MovieObj> doInBackground(String... params) {
-            if (params.length == 0) {
-                return null;
-            }
-            HttpURLConnection client = null;
-            BufferedReader bufferedReader = null;
-            String searchJSONstr = null;
-            final String SEARCH_BASE_URL =
-                    "https://api.themoviedb.org/3/movie";
-            final String API_KEY = getString(R.string.api_key);
-            final String API_KEY_PARAM = "api_key";
-
-            String sort;
-            sort=pref.getString("sort", "popular");
-            buildUri = Uri.parse(SEARCH_BASE_URL).buildUpon()
-                    .appendPath(sort)
-                    .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                    .build();
-            URL url = null;
-
-            try {
-                url = new URL(buildUri.toString());
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            }
-
-            Log.d("URL", url.toString());
-            try {
-                client = (HttpURLConnection) url.openConnection();
-                client.setRequestMethod("GET");
-                client.connect();
-                InputStream inputStream = client.getInputStream();
-                if (inputStream == null)
-                    return null;
-                StringBuilder buffer = new StringBuilder();
-
-
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    buffer.append(line + '\n');
-                }
-
-                if (buffer.length() == 0)
-                    return null;
-                searchJSONstr = buffer.toString();
-                Log.d("JSON Str", searchJSONstr);
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } finally {
-                if (client != null) {
-                    client.disconnect();
-                }
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        Log.e("Main", "Error closing stream", e);
-                    }
-                }
-            }
-
-            try
-
-            {
-                return getSearchDataFromJson(searchJSONstr);
-            } catch (
-                    Exception e
-                    )
-
-            {
-                String error;
-                if(sort.equals("fav"))
-                    error = getString(R.string.fav_error);
-                else
-                    error=getString(R.string.network);
-
-                Snackbar snackbar= Snackbar.make(gridView, error, Snackbar.LENGTH_LONG);
-                snackbar.setAction("Action", null);
-                snackbar.show();
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        private ArrayList<MovieObj> getSearchDataFromJson(String searchJSONstr)
-                throws Exception {
-            final String LIST_NAME = "results";
-            final String MOVIE_ID = "id";
-            final String MOVIE_TITLE = "original_title";
-            final String MOVIE_YEAR = "release_date";
-            final String VOTE_AVG = "vote_average";
-            final String MOVIE_POSTER_URL = "poster_path";
-            final String BACKDROP_URL = "backdrop_path";
-            final String MOVIE_PLOT = "overview";
-
-                JSONObject searchResult = new JSONObject(searchJSONstr);
-                int totalResults= searchResult.getInt("total_results");
-                if(totalResults==0) {
-                    Snackbar snack = Snackbar.make(gridView, getString(R.string.no_results), Snackbar.LENGTH_LONG);
-                    snack.setAction("Action", null);
-                    snack.show();
-                }
-            JSONArray movieArray = searchResult.getJSONArray(LIST_NAME);
-
-            String res=pref.getString("res", "w185");
-            String res_bg=pref.getString("res_bg", "w780");
-            Log.d("movieArray", movieArray.toString());
-
-            for (int i = 0; i < movieArray.length(); i++) {
-                JSONObject movieObject = movieArray.getJSONObject(i);
-                int id = movieObject.getInt(MOVIE_ID);
-                String title = movieObject.getString(MOVIE_TITLE);
-                String posterUrl = movieObject.getString(MOVIE_POSTER_URL);
-                String year = movieObject.getString(MOVIE_YEAR);
-                String plot = movieObject.getString(MOVIE_PLOT);
-                String vote_avg = movieObject.getString(VOTE_AVG);
-                String bgUrl = movieObject.getString(BACKDROP_URL);
-
-                movieResults.add(new MovieObj(id, title, year, vote_avg, "https://image.tmdb.org/t/p/" + res + posterUrl, plot, "https://image.tmdb.org/t/p/" + res_bg + bgUrl));
-            }
-
-            return movieResults;
-
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<MovieObj> movies) {
-            super.onPostExecute(movies);
-
-            if (movies != null) {
-                searchAdapter = new GridViewAdapter(context, movies);
-                gridView.setAdapter(searchAdapter);
-            }
-
-        }
-
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
     }
 
 

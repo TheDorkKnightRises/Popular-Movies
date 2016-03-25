@@ -56,6 +56,7 @@
         app:elevation="@dimen/activity_horizontal_margin"
         app:borderWidth="0dp"
         app:pressedTranslationZ="@dimen/activity_horizontal_margin"
+        android:onClick="OnFabClick"
         android:src="@drawable/ic_favorite_border_white_24px" />
 
 </android.support.design.widget.CoordinatorLayout>
