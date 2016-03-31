@@ -20,6 +20,7 @@
             android:paddingBottom="@dimen/horizontal_margin_half">
             <android.support.v7.widget.CardView
                 style="@style/Cards"
+                android:id="@+id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
@@ -32,7 +33,10 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:id="@+id/poster"
-                    android:src="@drawable/ic_photo_white_24px"/>
+                    android:transitionName="poster"
+                    android:onClick="onPosterClick"
+                    android:src="@drawable/ic_photo_white_24px"
+                    tools:targetApi="lollipop" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -46,8 +50,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/horizontal_margin_half"
+                        android:layout_below="@id/rate_text"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="/10"
+                        android:id="@+id/ten"
+                        android:layout_alignParentRight="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/ten"
+                        android:layout_marginTop="@dimen/vertical_margin_half"
+                        android:layout_marginRight="@dimen/horizontal_padding"
+                        android:layout_alignBottom="@id/ten"
                         android:layout_below="@id/rate_text"
                         android:text="0.0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -82,6 +97,7 @@
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 style="@style/Cards"
+                android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
@@ -107,6 +123,7 @@
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 style="@style/Cards"
+                android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
@@ -132,6 +149,7 @@
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 style="@style/Cards"
+                android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >

@@ -20,6 +20,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="Theme.AppCompat.Dialog.Alert" />
 
+    <style name="AppTheme.Transparent" parent="AppTheme.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
     <style name="Button" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
@@ -37,8 +43,8 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:layout_marginTop">@dimen/vertical_margin_half</item>
-        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginLeft">@dimen/horizontal_margin_half</item>
+        <item name="android:layout_marginRight">@dimen/horizontal_margin_half</item>
     </style>
 
 </resources>

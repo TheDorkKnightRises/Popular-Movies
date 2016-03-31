@@ -1,5 +1,6 @@
 package thedorkknightrises.moviespop;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -7,14 +8,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,11 +50,15 @@ public class Details extends AppCompatActivity {
     String poster;
     String vote;
     String bg;
+    Boolean anim;
+    Boolean paletteEnabled;
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.detail);
 
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar_detail);
@@ -77,7 +92,70 @@ public class Details extends AppCompatActivity {
             bg= savedInstanceState.getString("bg");
             update(title, plot, date, vote, poster, bg);
         }
+
     }
+
+    @Override
+    protected void onStart() {
+        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+        anim = pref.getBoolean("anim_enabled", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+            Slide slide = new Slide(Gravity.BOTTOM);
+            slide.addTarget(R.id.detail_card);
+            slide.addTarget(R.id.app_bar_detail);
+            slide.addTarget(R.id.detail_scroll);
+            slide.addTarget(R.id.fab);
+            slide.setInterpolator(new LinearOutSlowInInterpolator());
+            getWindow().setEnterTransition(slide);
+            getWindow().setAllowEnterTransitionOverlap(true);
+            getWindow().setExitTransition(slide);
+            getWindow().setAllowReturnTransitionOverlap(true);
+            getWindow().setReenterTransition(slide);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+            setupEnterAnimation();
+        }
+        super.onStart();
+    }
+
+
+    public void onPosterClick(View v) {
+        ImageView img = (ImageView) findViewById(R.id.poster);
+        Intent i = new Intent(Details.this, ImageViewer.class);
+
+        //Pass the image title and url to DetailsActivity
+        if (v == findViewById(R.id.poster))
+            i.putExtra("image", poster);
+        else
+            i.putExtra("image", bg);
+
+        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+        anim = pref.getBoolean("anim_enabled", true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+
+            try {
+
+                v.setTransitionName("image");
+                Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
+
+                ActivityOptionsCompat transitionActivityOptions =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                Details.this, participants);
+
+                ActivityCompat.startActivity(Details.this,
+                        i, transitionActivityOptions.toBundle());
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(Details.this);
+                ActivityCompat.startActivity(Details.this, i, trans.toBundle());
+            }
+        } else {
+            ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(Details.this);
+            ActivityCompat.startActivity(Details.this, i, trans.toBundle());
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,6 +202,9 @@ public class Details extends AppCompatActivity {
 
         SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
 
+
+        paletteEnabled = pref.getBoolean("palette_enabled", true);
+        if (paletteEnabled == true)
         new getBitmap(post).execute();
 
         CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
@@ -159,6 +240,39 @@ public class Details extends AppCompatActivity {
             }
         });
 
+    }
+
+    @TargetApi(21)
+    private void setupEnterAnimation() {
+        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition);
+        transition.setDuration(300);
+        getWindow().setSharedElementEnterTransition(transition);
+        transition.addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
     }
 
     public void OnFabClick(View v)
@@ -206,9 +320,9 @@ public class Details extends AppCompatActivity {
                     c.setStatusBarScrimColor(palette.getDarkVibrantSwatch().getRgb());
                 }
                 else {
-                    c.setContentScrimColor(palette.getDarkMutedSwatch().getRgb());
-                    c.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
-                    c.setStatusBarScrimColor(palette.getDarkMutedSwatch().getRgb());
+                    c.setContentScrimColor(palette.getMutedSwatch().getRgb());
+                    c.setBackgroundColor(palette.getMutedSwatch().getRgb());
+                    c.setStatusBarScrimColor(palette.getMutedSwatch().getRgb());
                 }
                 FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
                 if(palette.getVibrantSwatch()!=null)

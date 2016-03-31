@@ -22,9 +22,7 @@ public class About extends AppCompatActivity {
     public void click(View v)
     {
         String uri;
-        if(v.equals(findViewById(R.id.fork)))
-            uri="https://github.com/TheDorkKnightRises/Popular-Movies";
-        else if(v.equals(findViewById(R.id.site)))
+        if (v.equals(findViewById(R.id.site)))
             uri="https://thedorkknightrises.github.io/";
         else if(v.equals(findViewById(R.id.git)))
             uri="https://github.com/TheDorkKnightRises/";
@@ -34,12 +32,20 @@ public class About extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void oss(View v)
+    public void intro(View v)
     {
+        Intent i = new Intent(About.this, Intro.class);
+        startActivity(i);
+    }
+
+    public void credits(View v) {
         new LibsBuilder()
-                .withActivityTitle(getString(R.string.oss))
+                .withActivityTitle(getString(R.string.credits))
+                .withAboutAppName(getString(R.string.app_name))
+                .withAboutVersionShownName(true)
                 .withAboutIconShown(true)
                 .withLicenseDialog(true)
+                .withFields(R.string.class.getFields())
                 .withAboutDescription(getString(R.string.desc4))
                 .withActivityTheme(R.style.AboutLibrariesTheme)
                 //start the activity

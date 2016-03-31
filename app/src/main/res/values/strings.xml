@@ -16,8 +16,8 @@
     <string name="desc3">Powered by The Movie Database</string>
     <string name="desc4">Icon credits: Moonshine Icon Pack by Pedro Peguero Jr. (under Creative Commons 4.0 License)</string>
     <string name="nav_sec">Powered by The Movie Database</string>
-    <string name="oss">Credits</string>
-    <string name="fork">Fork on GitHub</string>
+    <string name="credits">More</string>
+    <string name="intro">Replay Intro</string>
     <string name="site">Website</string>
     <string name="git">GitHub</string>
     <string name="gplus">Google+</string>
@@ -35,6 +35,9 @@
     <string name="intro3">Use the navigation drawer to select sorting criteria</string>
     <string name="intro4">Open the details for a movie and tap the Floating Action Button to add to Favorites. Favorites are stored offline!</string>
 
+    <string name="head_general">Miscellaneous settings</string>
+    <string name="anim_setting">Enable animations</string>
+    <string name="anim_def">Disabling this might improve performance</string>
     <string name="head_thumb">Thumbnail options</string>
     <string name="res_thumb">Thumbnail quality:</string>
     <string name="head_detail">Details view options</string>

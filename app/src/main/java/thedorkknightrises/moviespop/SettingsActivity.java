@@ -49,29 +49,53 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         Spinner sp= (Spinner) findViewById(R.id.spinner_thumb);
         Spinner sp_bg= (Spinner) findViewById(R.id.spinner_bg);
         SwitchCompat ch_bg= (SwitchCompat) findViewById(R.id.bg_check);
+        SwitchCompat ch_anim = (SwitchCompat) findViewById(R.id.anim_check);
+        SwitchCompat ch_palette = (SwitchCompat) findViewById(R.id.palette_check);
 
         SharedPreferences pref= getSharedPreferences("Prefs", MODE_PRIVATE);
 
         int pos= pref.getInt("pos", 1);
         int pos_bg= pref.getInt("pos_bg", 1);
-        ch_bg.setChecked(pref.getBoolean("bg_enabled", true));
+
         sp.setSelection(pos);
         sp_bg.setSelection(pos_bg);
         sp_bg.setEnabled(pref.getBoolean("bg_enabled", true));
+
+        ch_bg.setChecked(pref.getBoolean("bg_enabled", true));
+        ch_anim.setChecked(pref.getBoolean("anim_enabled", true));
+        ch_palette.setChecked(pref.getBoolean("palette_enabled", true));
     }
 
     public void onCheckedChange(View v)
     {
         SharedPreferences pref= getSharedPreferences("Prefs", MODE_PRIVATE);
-        Spinner sp_bg= (Spinner) findViewById(R.id.spinner_bg);
-        SwitchCompat ch_bg= (SwitchCompat)findViewById(R.id.bg_check);
-        Boolean b= pref.getBoolean("bg_enabled", true);
-        SharedPreferences.Editor e = pref.edit();
-        e.putBoolean("bg_enabled", !b);
-        e.commit();
-        if(!v.equals(ch_bg))
-            ch_bg.toggle();
-        sp_bg.setEnabled(!b);
+        if (v.equals(findViewById(R.id.bg_check)) || v.equals(findViewById(R.id.bg_check_box))) {
+            Spinner sp_bg = (Spinner) findViewById(R.id.spinner_bg);
+            SwitchCompat ch_bg = (SwitchCompat) findViewById(R.id.bg_check);
+            Boolean b = pref.getBoolean("bg_enabled", true);
+            SharedPreferences.Editor e = pref.edit();
+            e.putBoolean("bg_enabled", !b);
+            e.commit();
+            if (!v.equals(ch_bg))
+                ch_bg.toggle();
+            sp_bg.setEnabled(!b);
+        } else if (v.equals(findViewById(R.id.anim_check)) || v.equals(findViewById(R.id.anim_check_box))) {
+            SwitchCompat ch_anim = (SwitchCompat) findViewById(R.id.anim_check);
+            Boolean b = pref.getBoolean("anim_enabled", true);
+            SharedPreferences.Editor e = pref.edit();
+            e.putBoolean("anim_enabled", !b);
+            e.commit();
+            if (!v.equals(ch_anim))
+                ch_anim.toggle();
+        } else if (v.equals(findViewById(R.id.palette_check)) || v.equals(findViewById(R.id.palette_check_box))) {
+            SwitchCompat ch_palette = (SwitchCompat) findViewById(R.id.palette_check);
+            Boolean b = pref.getBoolean("palette_enabled", true);
+            SharedPreferences.Editor e = pref.edit();
+            e.putBoolean("palette_enabled", !b);
+            e.commit();
+            if (!v.equals(ch_palette))
+                ch_palette.toggle();
+        }
     }
 
     @Override

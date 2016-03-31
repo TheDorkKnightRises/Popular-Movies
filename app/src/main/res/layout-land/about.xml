@@ -57,25 +57,25 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/oss"
+                android:id="@+id/introBtn"
                 style="@style/Button"
                 android:layout_below="@id/desc1"
                 android:layout_alignLeft="@id/desc1"
                 android:layout_alignStart="@id/desc1"
                 android:layout_marginBottom="8dp"
-                android:text="@string/oss"
-                android:onClick="oss"/>
+                android:text="@string/intro"
+                android:onClick="intro" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Button"
-                android:id="@+id/fork"
+                android:id="@+id/credits"
                 android:layout_below="@id/desc1"
                 android:layout_alignRight="@id/desc1"
                 android:layout_alignParentRight="@id/desc1"
                 android:layout_marginBottom="8dp"
-                android:text="@string/fork"
-                android:onClick="click"/>
+                android:text="@string/credits"
+                android:onClick="credits" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

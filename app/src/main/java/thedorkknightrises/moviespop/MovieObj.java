@@ -1,6 +1,8 @@
 package thedorkknightrises.moviespop;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by samri_000 on 3/19/2016
@@ -66,7 +68,8 @@ public class MovieObj implements Serializable {
         this.id = i;
         this.title = t;
         this.plot = mPlot;
-        this.year = y;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        this.year = simpleDateFormat.format(Date.valueOf(y));
         this.posterUrl = p;
         this.vote_avg = v;
         this.bgUrl = bg;

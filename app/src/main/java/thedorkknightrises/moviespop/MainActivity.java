@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     GridView mGridView;
     public ArrayList<MovieObj> movieResults = new ArrayList<>();
+    Boolean anim;
 
 
     @Override
@@ -96,7 +102,6 @@ public class MainActivity extends AppCompatActivity
             GridViewAdapter mAdapter= new GridViewAdapter(this, movieResults);
             mGridView.setAdapter(mAdapter);
         }
-
     }
 
     @Override
@@ -119,7 +124,29 @@ public class MainActivity extends AppCompatActivity
         i.putExtra("plot", m.plot);
         i.putExtra("poster", m.posterUrl);
         i.putExtra("bg", m.bgUrl);
-        startActivity(i);
+        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+        anim = pref.getBoolean("anim_enabled", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+
+            try {
+
+                v.setTransitionName("poster");
+                Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
+
+                ActivityOptionsCompat transitionActivityOptions =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                MainActivity.this, participants);
+
+                ActivityCompat.startActivity(MainActivity.this,
+                        i, transitionActivityOptions.toBundle());
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this);
+                ActivityCompat.startActivity(MainActivity.this, i, trans.toBundle());
+            }
+        } else {
+            startActivity(i);
+        }
     }
 
     @Override

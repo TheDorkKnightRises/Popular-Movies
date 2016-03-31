@@ -9,7 +9,8 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 /**
  * Created by samri_000 on 2/20/2016.
  */
-public class Intro extends AppIntro{
+
+public class Intro extends AppIntro {
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -19,9 +20,10 @@ public class Intro extends AppIntro{
         addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.sorting), getResources().getString(R.string.intro3), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
         addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.fav), getResources().getString(R.string.intro4), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
         showStatusBar(true);
-        setFlowAnimation();
+        setZoomAnimation();
 
     }
+
     @Override
     public void onSkipPressed() {
         finish();
