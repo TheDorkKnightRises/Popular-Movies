@@ -6,25 +6,25 @@ Popular Movie suggestion app developed as part of the Udacity Android Developer 
 
 ###Screenshots
 
-<img src="http://imgur.com/XFV7hVj" 
+<img src="http://imgur.com/XFV7hVj.jpg" 
 alt="Intro" width="auto" border="2" />
 
-<img src="http://imgur.com/KaJaU0a" 
+<img src="http://imgur.com/KaJaU0a.jpg" 
 alt="Categories" width="auto" border="2" />
 
-<img src="http://imgur.com/dyPrfIu" 
+<img src="http://imgur.com/dyPrfIu.jpg" 
 alt="Main screen" width="auto" border="2" />
 
-<img src="http://imgur.com/I2t82uM" 
+<img src="http://imgur.com/I2t82uM.jpg" 
 alt="Details" width="auto" border="2" />
 
-<img src="http://imgur.com/Azq0Y2Q" 
+<img src="http://imgur.com/Azq0Y2Q.jpg" 
 alt="Details" width="auto" border="2" />
 
-<img src="http://imgur.com/VmsrjnM" 
+<img src="http://imgur.com/VmsrjnM.jpg" 
 alt="Settings" width="auto" border="2" />
 
-<img src="http://imgur.com/i7MdZjx" 
+<img src="http://imgur.com/i7MdZjx.jpg" 
 alt="About" width="auto" border="2" />
 
 ###Instructions
