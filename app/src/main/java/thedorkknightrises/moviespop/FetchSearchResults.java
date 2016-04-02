@@ -130,6 +130,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
                 error = context.getString(R.string.network);
 
             Snackbar snackbar = Snackbar.make(gridView, error, Snackbar.LENGTH_LONG);
+            snackbar.setAction("Action", null);
             snackbar.show();
             e.printStackTrace();
         }

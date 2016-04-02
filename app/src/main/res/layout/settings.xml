@@ -10,87 +10,7 @@
     android:layout_height="wrap_content"
     android:fitsSystemWindows="false">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:layout_marginBottom="@dimen/horizontal_margin_half"
-        app:cardBackgroundColor="@color/cardview_dark_background"
-        app:cardElevation="8dp">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:id="@+id/head_general"
-                android:layout_height="36dp"
-                android:layout_margin="@dimen/horizontal_margin_half"
-                android:paddingLeft="@dimen/horizontal_margin_half"
-                android:paddingStart="@dimen/horizontal_margin_half"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorAccent"
-                android:gravity="center_vertical"
-                android:textSize="@dimen/text_small"
-                android:text="@string/head_general" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:id="@+id/anim_check_box"
-                android:onClick="onCheckedChange"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/vertical_margin_half"
-                android:paddingRight="@dimen/vertical_margin_half"
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:id="@+id/anim_setting"
-                    android:gravity="center_vertical"
-                    android:paddingTop="@dimen/horizontal_padding"
-                    android:layout_marginLeft="@dimen/horizontal_margin_half"
-                    android:layout_marginStart="@dimen/horizontal_margin_half"
-                    android:textSize="@dimen/text_med"
-                    android:textColor="#ffffffff"
-                    android:text="@string/anim_setting" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/vertical_margin_half"
-                    android:layout_marginEnd="@dimen/vertical_margin_half"
-                    android:checked="true"
-                    android:id="@+id/anim_check"
-                    android:clickable="true"
-                    android:onClick="onCheckedChange"
-                    android:layout_centerVertical="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_small"
-                    android:textColor="#afffffff"
-                    android:text="@string/anim_def"
-                    android:id="@+id/def_text_anim"
-                    android:layout_toLeftOf="@id/anim_check"
-                    android:layout_below="@id/anim_setting"
-                    android:layout_alignLeft="@id/anim_setting"
-                    android:layout_alignStart="@id/anim_setting" />
-
-            </RelativeLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -98,8 +18,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:layout_marginBottom="@dimen/horizontal_margin_half"
-        app:cardBackgroundColor="@color/cardview_dark_background"
-        app:cardElevation="8dp">
+        app:cardBackgroundColor="@color/cardview_dark_background">
 
         <LinearLayout
         android:orientation="vertical"
@@ -120,7 +39,7 @@
      <RelativeLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:foreground="?android:attr/selectableItemBackground"
+         android:background="?android:attr/selectableItemBackground"
          android:clickable="true"
          android:gravity="center_vertical"
          android:paddingLeft="@dimen/vertical_margin_half"
@@ -167,8 +86,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cardview_dark_background"
-        app:cardElevation="8dp">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_marginBottom="@dimen/horizontal_margin_half"
+        app:cardBackgroundColor="@color/cardview_dark_background">
 
         <LinearLayout
             android:orientation="vertical"
@@ -190,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:onClick="onCheckedChange"
                 android:id="@+id/bg_check_box"
@@ -243,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:paddingLeft="@dimen/vertical_margin_half"
                 android:paddingRight="@dimen/vertical_margin_half"
@@ -288,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:id="@+id/palette_check_box"
                 android:onClick="onCheckedChange"
@@ -339,6 +260,87 @@
 
         </LinearLayout>
 
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_marginBottom="@dimen/horizontal_margin_half"
+        app:cardBackgroundColor="@color/cardview_dark_background">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/head_general"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/horizontal_margin_half"
+                android:paddingLeft="@dimen/horizontal_margin_half"
+                android:paddingStart="@dimen/horizontal_margin_half"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/text_small"
+                android:text="@string/head_general" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:id="@+id/anim_check_box"
+                android:onClick="onCheckedChange"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/vertical_margin_half"
+                android:paddingRight="@dimen/vertical_margin_half"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:id="@+id/anim_setting"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/horizontal_padding"
+                    android:layout_marginLeft="@dimen/horizontal_margin_half"
+                    android:layout_marginStart="@dimen/horizontal_margin_half"
+                    android:textSize="@dimen/text_med"
+                    android:textColor="#ffffffff"
+                    android:text="@string/anim_setting" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/vertical_margin_half"
+                    android:layout_marginEnd="@dimen/vertical_margin_half"
+                    android:checked="true"
+                    android:id="@+id/anim_check"
+                    android:clickable="true"
+                    android:onClick="onCheckedChange"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_small"
+                    android:textColor="#afffffff"
+                    android:text="@string/anim_def"
+                    android:id="@+id/def_text_anim"
+                    android:layout_toLeftOf="@id/anim_check"
+                    android:layout_below="@id/anim_setting"
+                    android:layout_alignLeft="@id/anim_setting"
+                    android:layout_alignStart="@id/anim_setting" />
+
+            </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

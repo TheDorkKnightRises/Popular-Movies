@@ -1,6 +1,7 @@
 package thedorkknightrises.moviespop;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         sp_bg.setAdapter(spAdapter_bg);
 
 
+
     }
 
     @Override
@@ -53,6 +56,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         SwitchCompat ch_palette = (SwitchCompat) findViewById(R.id.palette_check);
 
         SharedPreferences pref= getSharedPreferences("Prefs", MODE_PRIVATE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            SharedPreferences.Editor e = pref.edit();
+            e.putBoolean("anim_enabled", false);
+            e.commit();
+            findViewById(R.id.anim_check_box).setEnabled(false);
+            ((TextView) findViewById(R.id.def_text_anim)).setText(R.string.sdk_low);
+        }
 
         int pos= pref.getInt("pos", 1);
         int pos_bg= pref.getInt("pos_bg", 1);

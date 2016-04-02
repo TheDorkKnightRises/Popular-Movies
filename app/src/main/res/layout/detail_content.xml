@@ -22,7 +22,6 @@
                 style="@style/Cards"
                 android:id="@+id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -34,6 +33,8 @@
                     android:adjustViewBounds="true"
                     android:id="@+id/poster"
                     android:transitionName="poster"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:onClick="onPosterClick"
                     android:src="@drawable/ic_photo_white_24px"
                     tools:targetApi="lollipop" />
@@ -99,7 +100,6 @@
                 style="@style/Cards"
                 android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
                 <LinearLayout
                     android:orientation="vertical"
@@ -125,7 +125,6 @@
                 style="@style/Cards"
                 android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
                 <LinearLayout
                     android:orientation="vertical"
@@ -143,7 +142,6 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/mtrailer"
                         android:text="Coming soon..."/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -151,7 +149,6 @@
                 style="@style/Cards"
                 android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:cardElevation="@dimen/elevation"
                 app:contentPadding="16dp" >
                 <LinearLayout
                     android:orientation="vertical"
@@ -169,8 +166,15 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/mreview"
                         android:text="Coming soon..."/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/credits"
+                        style="@style/Button"
+                        android:visibility="gone" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

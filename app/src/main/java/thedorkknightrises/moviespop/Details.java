@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by samri_000 on 3/20/2016
@@ -52,6 +53,7 @@ public class Details extends AppCompatActivity {
     String bg;
     Boolean anim;
     Boolean paletteEnabled;
+    ArrayList<TrailerObj> trailerList;
 
 
     @Override
@@ -120,14 +122,16 @@ public class Details extends AppCompatActivity {
 
 
     public void onPosterClick(View v) {
-        ImageView img = (ImageView) findViewById(R.id.poster);
         Intent i = new Intent(Details.this, ImageViewer.class);
 
         //Pass the image title and url to DetailsActivity
         if (v == findViewById(R.id.poster))
             i.putExtra("image", poster);
-        else
+        else {
+            AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_detail);
+            appBarLayout.setExpanded(true);
             i.putExtra("image", bg);
+        }
 
         SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         anim = pref.getBoolean("anim_enabled", true);
@@ -173,14 +177,13 @@ public class Details extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (itemId == R.id.share_details) {
-            ImageView poster = (ImageView) findViewById(R.id.poster);
             Intent sharePage = new Intent(Intent.ACTION_SEND);
             String url= "https://www.themoviedb.org/movie/"+id;
             sharePage.putExtra(Intent.EXTRA_TEXT, url);
             sharePage.setType("text/plain");
             startActivity(Intent.createChooser(sharePage, "Share link via"));
-        }
-
+        } else if (itemId == android.R.id.home)
+            onBackPressed();
         return super.onOptionsItemSelected(item);
     }
 
@@ -223,7 +226,6 @@ public class Details extends AppCompatActivity {
         Glide.with(this)
                 .load(post)
                 .crossFade(500)
-                .error(R.drawable.ic_photo_white_24px)
                 .into(poster);
         if(pref.getBoolean("bg_enabled", true)) {
             Glide.with(this)
@@ -232,14 +234,19 @@ public class Details extends AppCompatActivity {
                     .into(backdrop);
         }
 
-        c.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppBarLayout appBarLayout= (AppBarLayout) findViewById(R.id.app_bar_detail);
-                appBarLayout.setExpanded(true);
-            }
-        });
-
+        if (backdrop != null) {
+            backdrop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences p = getSharedPreferences("Prefs", MODE_PRIVATE);
+                    if (p.getBoolean("bg_enabled", true))
+                        onPosterClick(v);
+                    else {
+                        ((AppBarLayout) findViewById(R.id.app_bar_detail)).setExpanded(true, true);
+                    }
+                }
+            });
+        }
     }
 
     @TargetApi(21)

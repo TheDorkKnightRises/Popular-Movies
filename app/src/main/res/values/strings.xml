@@ -51,6 +51,7 @@
     <string name="def_bgtoggle">Show backdrop in details view</string>
     <string name="palette_toggle">Enable dynamic coloring</string>
     <string name="def_palettetoggle">Automagically extracts and applies colors from the poster to the details screen</string>
+    <string name="sdk_low">Requires Android 5.0+</string>
 
     <string name="synopsis">Synopsis</string>
     <string name="release">Release date</string>

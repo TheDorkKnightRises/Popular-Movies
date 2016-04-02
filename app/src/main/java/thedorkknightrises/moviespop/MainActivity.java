@@ -168,9 +168,10 @@ public class MainActivity extends AppCompatActivity
             if(isConnected(this)) {
                 mGridView.removeAllViewsInLayout();
                 populateMovies();
+            } else {
+                Snackbar snack = Snackbar.make(mGridView, R.string.refresh_error, Snackbar.LENGTH_LONG);
+                snack.setAction("Action", null);
             }
-            else
-                Snackbar.make(mGridView, R.string.refresh_error, Snackbar.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
