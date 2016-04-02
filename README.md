@@ -7,25 +7,19 @@ Popular Movie suggestion app developed as part of the Udacity Android Developer 
 ###Screenshots
 
 <img src="http://imgur.com/XFV7hVj.jpg" 
-alt="Intro" width="auto" border="2" />
+alt="Intro" width="48%" border="2" />
 
 <img src="http://imgur.com/KaJaU0a.jpg" 
-alt="Categories" width="auto" border="2" />
-
-<img src="http://imgur.com/dyPrfIu.jpg" 
-alt="Main screen" width="auto" border="2" />
+alt="Categories" width="48%" border="2" /> <img src="http://imgur.com/dyPrfIu.jpg" 
+alt="Main screen" width="48%" border="2" /> 
 
 <img src="http://imgur.com/I2t82uM.jpg" 
-alt="Details" width="auto" border="2" />
-
-<img src="http://imgur.com/Azq0Y2Q.jpg" 
-alt="Details" width="auto" border="2" />
+alt="Details" width="48%" border="2" /> <img src="http://imgur.com/Azq0Y2Q.jpg" 
+alt="Details" width="48%" border="2" />
 
 <img src="http://imgur.com/VmsrjnM.jpg" 
-alt="Settings" width="auto" border="2" />
-
-<img src="http://imgur.com/i7MdZjx.jpg" 
-alt="About" width="auto" border="2" />
+alt="Settings" width="48%" border="2" /> <img src="http://imgur.com/i7MdZjx.jpg" 
+alt="About" width="48%" border="2" />
 
 ###Instructions
 >This app is powered by [The Movie Database (TMDb)](https://www.themoviedb.org/), and requires an API key to perform requests and fetch data. You can obtain an API key by signing up for an TMDb account [here](https://www.themoviedb.org/account/signup).
