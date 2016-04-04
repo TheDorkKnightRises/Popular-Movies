@@ -101,7 +101,7 @@ public class Details extends AppCompatActivity {
     protected void onStart() {
         SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         anim = pref.getBoolean("anim_enabled", true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
             Slide slide = new Slide(Gravity.BOTTOM);
             slide.addTarget(R.id.detail_card);
             slide.addTarget(R.id.app_bar_detail);
@@ -109,11 +109,8 @@ public class Details extends AppCompatActivity {
             slide.addTarget(R.id.fab);
             slide.setInterpolator(new LinearOutSlowInInterpolator());
             getWindow().setEnterTransition(slide);
-            getWindow().setAllowEnterTransitionOverlap(true);
             getWindow().setExitTransition(slide);
-            getWindow().setAllowReturnTransitionOverlap(true);
             getWindow().setReenterTransition(slide);
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
             setupEnterAnimation();
         }

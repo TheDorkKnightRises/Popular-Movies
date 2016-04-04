@@ -62,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             e.putBoolean("anim_enabled", false);
             e.commit();
             findViewById(R.id.anim_check_box).setEnabled(false);
+            findViewById(R.id.anim_setting).setEnabled(false);
             ((TextView) findViewById(R.id.def_text_anim)).setText(R.string.sdk_low);
         }
 

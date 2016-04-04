@@ -13,8 +13,8 @@
         <ImageView
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:id="@+id/aboutIcon"
             android:layout_centerHorizontal="true"
             android:src="@mipmap/ic_launcher"/>
@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/aboutIcon"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/paddingLarge"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:text="@string/app_name"
         android:id="@+id/aboutName"
