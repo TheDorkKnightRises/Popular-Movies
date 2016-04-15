@@ -32,16 +32,14 @@ public class FetchReviews extends AsyncTask<String, Void, ArrayList<ReviewObj>> 
     SharedPreferences pref;
     ArrayList<ReviewObj> rResults;
     int mId;
-    TextView rHead;
     Uri buildUri;
 
-    public FetchReviews(Context c, RecyclerView v, ArrayList<ReviewObj> rRes, int movieId, TextView head) {
+    public FetchReviews(Context c, RecyclerView v, ArrayList<ReviewObj> rRes, int movieId) {
         super();
         context = c;
         rView = v;
         rResults = rRes;
         mId = movieId;
-        rHead = head;
     }
 
     @Override
@@ -159,12 +157,11 @@ public class FetchReviews extends AsyncTask<String, Void, ArrayList<ReviewObj>> 
     protected void onPostExecute(ArrayList<ReviewObj> Reviews) {
         super.onPostExecute(Reviews);
 
-        if (Reviews != null) {
-            rAdapter = new ReviewAdapter(Reviews, context);
-            rView.setAdapter(rAdapter);
-        } else
-            rHead.setText(context.getString(R.string.no_reviews));
-
+        if (Reviews.isEmpty()) {
+            Reviews.add(new ReviewObj("", context.getString(R.string.no_reviews)));
+        }
+        rAdapter = new ReviewAdapter(Reviews, context);
+        rView.setAdapter(rAdapter);
     }
 
 }
