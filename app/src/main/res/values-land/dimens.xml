@@ -8,4 +8,5 @@
     <dimen name="extended_height">160dp</dimen>
     <dimen name="poster_w">500px</dimen>
     <integer name="num_col">3</integer>
+    <dimen name="tr_width">360dp</dimen>
 </resources>

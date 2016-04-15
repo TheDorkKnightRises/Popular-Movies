@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="@dimen/fab_margin"
+    android:layout_marginBottom="@dimen/horizontal_margin_half"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vertical_margin_half">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Author"
+            android:paddingLeft="@dimen/horizontal_margin_half"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:id="@+id/review_author" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/horizontal_margin_half"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Lorem ipsym dolor"
+            android:id="@+id/review_text" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

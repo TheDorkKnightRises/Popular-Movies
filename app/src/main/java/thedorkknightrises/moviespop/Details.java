@@ -21,6 +21,8 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
@@ -53,19 +55,26 @@ public class Details extends AppCompatActivity {
     String bg;
     Boolean anim;
     Boolean paletteEnabled;
-    ArrayList<TrailerObj> trailerList;
+    ArrayList<TrailerObj> trailerList = new ArrayList<>();
+    ArrayList<ReviewObj> rList = new ArrayList<>();
+    RecyclerView tGrid;
+    RecyclerView mReView;
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.detail);
 
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        tGrid = (RecyclerView) findViewById(R.id.tr_view);
+        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mReView = (RecyclerView) findViewById(R.id.reviews);
+        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
         if (savedInstanceState==null)
@@ -114,6 +123,8 @@ public class Details extends AppCompatActivity {
 
             setupEnterAnimation();
         }
+        new FetchTrailers(this, tGrid, trailerList, id, title, (TextView) findViewById(R.id.trailer)).execute("trailers");
+        new FetchReviews(this, mReView, rList, id, (TextView) findViewById(R.id.review)).execute("reviews");
         super.onStart();
     }
 
@@ -133,7 +144,7 @@ public class Details extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         anim = pref.getBoolean("anim_enabled", true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
             try {
 
@@ -197,6 +208,7 @@ public class Details extends AppCompatActivity {
         state.putString("poster", poster);
         state.putString("bg", bg);
     }
+
 
     public void update(String t, String p, String d, String v, final String post, String back)  {
 

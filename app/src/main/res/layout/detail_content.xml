@@ -114,7 +114,7 @@
                         android:textStyle="bold"
                         android:text="@string/synopsis"/>
                     <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/mplot"
@@ -138,18 +138,21 @@
                         android:id="@+id/trailer"
                         android:textStyle="bold"
                         android:text="@string/trailer"/>
-                    <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+
+                    <android.support.v7.widget.RecyclerView
+                        android:clickable="true"
+                        android:id="@+id/tr_view"
+                        android:scrollbars="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Coming soon..."/>
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 style="@style/Cards"
                 android:id="@id/detail_card"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:contentPadding="16dp" >
+                app:contentPaddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -159,15 +162,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
                         android:id="@+id/review"
                         android:textStyle="bold"
                         android:text="@string/review"/>
-                    <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+
+                    <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Coming soon..."/>
-
+                        android:clickable="true"
+                        android:id="@+id/reviews"></android.support.v7.widget.RecyclerView>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"

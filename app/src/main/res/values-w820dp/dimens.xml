@@ -8,4 +8,5 @@
     <dimen name="extended_height">300dp</dimen>
     <dimen name="fab_margin">32dp</dimen>
     <integer name="num_col">4</integer>
+    <dimen name="tr_width">420dp</dimen>
 </resources>

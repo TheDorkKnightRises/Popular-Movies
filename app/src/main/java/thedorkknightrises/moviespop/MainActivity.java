@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         i.putExtra("bg", m.bgUrl);
         SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         anim = pref.getBoolean("anim_enabled", true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
             try {
 
@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
+
             if(isConnected(this)) {
                 mGridView.removeAllViewsInLayout();
                 populateMovies();

@@ -15,7 +15,8 @@
     <string name="desc2">Developed by Samriddha Basu</string>
     <string name="desc3">Powered by The Movie Database</string>
     <string name="desc4">Icon credits: Moonshine Icon Pack by Pedro Peguero Jr. (under Creative Commons 4.0 License)</string>
-    <string name="nav_sec">Powered by The Movie Database</string>
+    <string name="nav_sec">Tap here to learn more</string>
+    <string name="sign_in">Sign into TMDb</string>
     <string name="credits">More</string>
     <string name="intro">Replay Intro</string>
     <string name="site">Website</string>
@@ -33,7 +34,8 @@
     <string name="intro1">This app suggests movies for you to watch</string>
     <string name="intro2">Tap a movie poster on the grid view to open detailed view including synopsis, ratings, reviews and trailers</string>
     <string name="intro3">Use the navigation drawer to select sorting criteria</string>
-    <string name="intro4">Open the details for a movie and tap the Floating Action Button to add to Favorites. Favorites are stored offline!</string>
+    <string name="intro4">In the details view, tap a movie poster or backdrop to view full screen</string>
+    <string name="intro5">Tap the Floating Action Button to add to Favorites. Favorites are stored offline!</string>
 
     <string name="head_general">Miscellaneous settings</string>
     <string name="anim_setting">Enable animations</string>
@@ -64,4 +66,8 @@
     <string name="no_results">No results returned. Try again later</string>
     <string name="content">Failed to retrieve all content. Check connection or try again later</string>
     <string name="fav_error">Favorites coming soon :D</string>
+    <string name="no_trailers">No trailers found :(</string>
+    <string name="no_reviews">No reviews found :(</string>
+    <string name="author">Review by:</string>
+
 </resources>

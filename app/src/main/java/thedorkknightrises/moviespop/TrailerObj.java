@@ -20,7 +20,7 @@ public class TrailerObj implements Serializable {
     }
 
     public String getTrId() {
-        return trName;
+        return trId;
     }
 
     public void setTrName(String name) {
