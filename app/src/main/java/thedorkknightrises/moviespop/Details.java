@@ -71,12 +71,6 @@ public class Details extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tGrid = (RecyclerView) findViewById(R.id.tr_view);
-        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mReView = (RecyclerView) findViewById(R.id.reviews);
-        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-
         if (savedInstanceState==null)
         {
             Bundle extras= getIntent().getExtras();
@@ -104,6 +98,15 @@ public class Details extends AppCompatActivity {
             update(title, plot, date, vote, poster, bg);
         }
 
+        tGrid = (RecyclerView) findViewById(R.id.tr_view);
+        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mReView = (RecyclerView) findViewById(R.id.reviews);
+        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mReView.setNestedScrollingEnabled(false);
+
+        new FetchTrailers(this, tGrid, trailerList, id, title).execute("trailers");
+        new FetchReviews(this, mReView, rList, id).execute("reviews");
+
     }
 
     @Override
@@ -123,8 +126,6 @@ public class Details extends AppCompatActivity {
 
             setupEnterAnimation();
         }
-        new FetchTrailers(this, tGrid, trailerList, id, title, (TextView) findViewById(R.id.trailer)).execute("trailers");
-        new FetchReviews(this, mReView, rList, id, (TextView) findViewById(R.id.review)).execute("reviews");
         super.onStart();
     }
 

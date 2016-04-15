@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="@dimen/fab_margin"
+    app:cardElevation="@dimen/horizontal_padding"
     android:layout_marginBottom="@dimen/horizontal_margin_half"
     android:foreground="?android:attr/selectableItemBackground"
     android:background="?android:attr/selectableItemBackground"
@@ -26,6 +26,7 @@
             android:id="@+id/review_author" />
 
         <TextView
+            android:autoLink="all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/horizontal_margin_half"

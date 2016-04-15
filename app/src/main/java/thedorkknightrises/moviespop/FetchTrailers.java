@@ -32,16 +32,14 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>
     int mId;
     Uri buildUri;
     String mTitle;
-    TextView trHead;
 
-    public FetchTrailers(Context c, RecyclerView v, ArrayList<TrailerObj> trRes, int movieId, String title, TextView head) {
+    public FetchTrailers(Context c, RecyclerView v, ArrayList<TrailerObj> trRes, int movieId, String title) {
         super();
         context = c;
         trView = v;
         trResults = trRes;
         mId = movieId;
         mTitle = title;
-        trHead = head;
     }
 
     @Override
@@ -161,9 +159,7 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>
         if (trailers != null) {
             trAdapter = new TrailerAdapter(trailers, context, mTitle);
             trView.setAdapter(trAdapter);
-        } else
-            trHead.setText(context.getString(R.string.no_trailers));
-
+        }
     }
 
 }

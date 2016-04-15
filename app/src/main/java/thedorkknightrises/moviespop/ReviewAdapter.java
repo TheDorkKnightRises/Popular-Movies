@@ -61,7 +61,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         // - replace the contents of the view with that element
         ReviewObj review = rArray.get(position);
         holder.rText.setText(review.rText);
+        if (!review.rAuth.equals(""))
         holder.rAuth.setText(context.getString(R.string.author) + " " + review.rAuth);
+        else
+            holder.rAuth.setVisibility(View.GONE);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
