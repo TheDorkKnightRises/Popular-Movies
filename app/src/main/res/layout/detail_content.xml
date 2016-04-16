@@ -138,13 +138,20 @@
                         android:id="@+id/trailer"
                         android:textStyle="bold"
                         android:text="@string/trailer"/>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/no_tr"
+                        android:text="@string/no_trailers"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:visibility="gone"/>
                     <android.support.v7.widget.RecyclerView
                         android:clickable="true"
                         android:id="@+id/tr_view"
                         android:scrollbars="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -172,7 +179,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:id="@+id/reviews"></android.support.v7.widget.RecyclerView>
+                        android:id="@+id/reviews"
+                        android:visibility="gone"/>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"

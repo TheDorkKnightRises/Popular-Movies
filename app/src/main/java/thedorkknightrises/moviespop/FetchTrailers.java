@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -159,6 +160,7 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>
         if (trailers != null) {
             trAdapter = new TrailerAdapter(trailers, context, mTitle);
             trView.setAdapter(trAdapter);
+            trView.setVisibility(View.VISIBLE);
         }
     }
 

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -162,6 +163,7 @@ public class FetchReviews extends AsyncTask<String, Void, ArrayList<ReviewObj>> 
         }
         rAdapter = new ReviewAdapter(Reviews, context);
         rView.setAdapter(rAdapter);
+        rView.setVisibility(View.VISIBLE);
     }
 
 }
