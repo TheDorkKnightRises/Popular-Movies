@@ -2,6 +2,7 @@ package thedorkknightrises.moviespop;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -17,13 +18,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -128,8 +134,6 @@ public class MainActivity extends AppCompatActivity
         anim = pref.getBoolean("anim_enabled", true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
-            try {
-
                 v.setTransitionName("poster");
                 Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
 
@@ -139,11 +143,7 @@ public class MainActivity extends AppCompatActivity
 
                 ActivityCompat.startActivity(MainActivity.this,
                         i, transitionActivityOptions.toBundle());
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this);
-                ActivityCompat.startActivity(MainActivity.this, i, trans.toBundle());
-            }
+
         } else {
             startActivity(i);
         }
@@ -184,8 +184,26 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder dialog= new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
+            dialog.setMessage(R.string.exit)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            exit();
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
         }
+    }
+    public void exit()
+    {
+        super.onBackPressed();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -236,6 +254,23 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void login(View v)
+    {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        AlertDialog.Builder signin= new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
+        signin.setMessage(R.string.no_login)
+                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
     }
 
     public void populateMovies() {

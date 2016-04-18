@@ -4,9 +4,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="ok">OK</string>
     <string name="close">Close</string>
     <string name="refresh">Refresh</string>
     <string name="share">Share</string>
+    <string name="exit">Do you want to exit the app?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="action_about">About</string>
     <string name="action_settings">Settings</string>
@@ -65,9 +69,12 @@
     <string name="refresh_error">Faied to  refresh content from server. Check your network status</string>
     <string name="no_results">No results returned. Try again later</string>
     <string name="content">Failed to retrieve all content. Check connection or try again later</string>
-    <string name="fav_error">Favorites coming soon :D</string>
     <string name="no_trailers">No trailers found :(</string>
     <string name="no_reviews">No reviews found :(</string>
     <string name="author">Review by:</string>
+
+
+    <string name="fav_error">Favorites coming soon :D</string>
+    <string name="no_login">TMDb sign-in coming in the next major update :D</string>
 
 </resources>

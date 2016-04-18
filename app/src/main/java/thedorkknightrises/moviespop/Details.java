@@ -147,8 +147,6 @@ public class Details extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
-            try {
-
                 v.setTransitionName("image");
                 Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
 
@@ -158,11 +156,7 @@ public class Details extends AppCompatActivity {
 
                 ActivityCompat.startActivity(Details.this,
                         i, transitionActivityOptions.toBundle());
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(Details.this);
-                ActivityCompat.startActivity(Details.this, i, trans.toBundle());
-            }
+
         } else {
             ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(Details.this);
             ActivityCompat.startActivity(Details.this, i, trans.toBundle());
@@ -259,7 +253,6 @@ public class Details extends AppCompatActivity {
         }
     }
 
-    @TargetApi(21)
     private void setupEnterAnimation() {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition);
         transition.setDuration(300);
