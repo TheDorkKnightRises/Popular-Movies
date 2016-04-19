@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -103,6 +105,7 @@ public class Details extends AppCompatActivity {
         mReView = (RecyclerView) findViewById(R.id.reviews);
         mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mReView.setNestedScrollingEnabled(false);
+        mReView.setHasFixedSize(true);
 
         new FetchTrailers(this, tGrid, trailerList, id, title).execute("trailers");
         new FetchReviews(this, mReView, rList, id).execute("reviews");
@@ -127,6 +130,14 @@ public class Details extends AppCompatActivity {
             setupEnterAnimation();
         }
         super.onStart();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        mReView.removeAllViews();
+        mReView.setVisibility(View.GONE);
+        super.onBackPressed();
     }
 
 
@@ -163,7 +174,6 @@ public class Details extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -189,7 +199,6 @@ public class Details extends AppCompatActivity {
             onBackPressed();
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle state)
@@ -253,6 +262,7 @@ public class Details extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupEnterAnimation() {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition);
         transition.setDuration(300);

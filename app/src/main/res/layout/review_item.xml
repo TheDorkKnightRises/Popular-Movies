@@ -12,16 +12,16 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/vertical_margin_half">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Author"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:paddingLeft="@dimen/horizontal_margin_half"
+            android:paddingRight="@dimen/horizontal_margin_half"
             android:paddingBottom="@dimen/activity_horizontal_margin"
             android:id="@+id/review_author" />
 
@@ -30,7 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/horizontal_margin_half"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:maxLines="15"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Lorem ipsym dolor"
             android:id="@+id/review_text" />
 

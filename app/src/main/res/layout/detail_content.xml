@@ -168,9 +168,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginBottom="8dp"
                         android:id="@+id/review"
                         android:textStyle="bold"
                         android:text="@string/review"/>
@@ -181,13 +181,17 @@
                         android:clickable="true"
                         android:id="@+id/reviews"
                         android:visibility="gone"/>
-                    <Button
+
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/credits"
-                        style="@style/Button"
-                        android:visibility="gone" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/expandReview"
+                        android:layout_gravity="end"
+                        android:paddingLeft="@dimen/horizontal_margin_half"
+                        android:paddingRight="@dimen/horizontal_margin_half"
+                        android:paddingBottom="@dimen/horizontal_margin_half"
+                        android:id="@+id/expandText"/>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

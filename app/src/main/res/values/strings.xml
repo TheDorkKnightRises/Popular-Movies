@@ -71,7 +71,8 @@
     <string name="content">Failed to retrieve all content. Check connection or try again later</string>
     <string name="no_trailers">No trailers found :(</string>
     <string name="no_reviews">No reviews found :(</string>
-    <string name="author">Review by:</string>
+    <string name="author">Review by:\ </string>
+    <string name="expandReview">(Tap the text to view full review)</string>
 
 
     <string name="fav_error">Favorites coming soon :D</string>

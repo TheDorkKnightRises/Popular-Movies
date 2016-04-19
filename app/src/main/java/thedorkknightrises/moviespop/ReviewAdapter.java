@@ -1,7 +1,9 @@
 package thedorkknightrises.moviespop;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +61,22 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        ReviewObj review = rArray.get(position);
+        final ReviewObj review = rArray.get(position);
         holder.rText.setText(review.rText);
         if (!review.rAuth.equals(""))
-        holder.rAuth.setText(context.getString(R.string.author) + " " + review.rAuth);
+        holder.rAuth.setText(context.getString(R.string.author) + review.rAuth);
         else
             holder.rAuth.setVisibility(View.GONE);
+
+        holder.rText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder reviewDialog = new AlertDialog.Builder(context, R.style.AppTheme_PopupOverlay);
+                reviewDialog.setMessage(review.getRText())
+                        .setTitle(context.getString(R.string.author)+review.getRAuth())
+                        .show();
+                }
+            });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
