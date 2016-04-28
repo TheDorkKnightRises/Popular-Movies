@@ -8,45 +8,45 @@
         android:id="@+id/tr_image"
         android:layout_width="@dimen/tr_width"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_play_circle_filled_white_36px"
         android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:background="?android:attr/selectableItemBackground" />
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_play_circle_filled_white_36px" />
 
     <TextView
         android:id="@+id/tr_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tr_image"
+        android:layout_alignBottom="@id/tr_image"
+        android:layout_alignEnd="@id/tr_image"
+        android:layout_alignLeft="@id/tr_image"
+        android:layout_alignRight="@id/tr_image"
+        android:layout_alignStart="@id/tr_image"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="?android:attr/actionBarSize"
+        android:background="#aa000000"
         android:minHeight="?android:attr/actionBarSize"
         android:padding="@dimen/horizontal_margin_half"
-        android:layout_centerVertical="true"
-        android:layout_alignBottom="@id/tr_image"
-        android:layout_alignBaseline="@id/tr_image"
-        android:layout_alignRight="@id/tr_image"
-        android:layout_alignEnd="@id/tr_image"
-        android:layout_marginRight="?android:attr/actionBarSize"
-        android:layout_alignLeft="@id/tr_image"
-        android:layout_alignStart="@id/tr_image"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/app_name"
-        android:background="#aa000000" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageButton
         android:id="@+id/share_trailer"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="end"
-        android:layout_centerVertical="true"
-        android:foreground="#aa000000"
-        android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_share_white_24px"
-        android:clickable="true"
-        android:layout_alignTop="@id/tr_name"
-        android:layout_alignBottom="@id/tr_image"
         android:layout_alignBaseline="@id/tr_image"
+        android:layout_alignBottom="@id/tr_image"
+        android:layout_alignEnd="@id/tr_image"
         android:layout_alignRight="@id/tr_image"
-        android:layout_alignEnd="@id/tr_image" />
+        android:layout_alignTop="@id/tr_name"
+        android:layout_centerVertical="true"
+        android:layout_gravity="end"
+        android:background="#aa000000"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_share_white_24px" />
 
 </RelativeLayout>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_horizontal_margin">32dp</dimen>
-    <dimen name="horizontal_margin_half">16dp</dimen>
-    <dimen name="horizontal_padding">8dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="horizontal_margin_half">8dp</dimen>
     <dimen name="activity_vertical_margin">32dp</dimen>
     <dimen name="vertical_margin_half">16dp</dimen>
-    <dimen name="extended_height">160dp</dimen>
+    <dimen name="extended_height">150dp</dimen>
     <dimen name="fab_margin">32dp</dimen>
-    <dimen name="poster_w">500px</dimen>
-    <integer name="num_col">3</integer>
-    <dimen name="tr_width">360dp</dimen>
+    <dimen name="poster_w">120dp</dimen>
+    <dimen name="tr_width">280dp</dimen>
 </resources>

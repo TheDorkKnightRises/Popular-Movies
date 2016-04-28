@@ -20,15 +20,14 @@
         </android.support.v7.widget.Toolbar>
 
         <TextView
+            android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:id="@+id/label"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:background="@color/colorPrimaryDark"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
+
 
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

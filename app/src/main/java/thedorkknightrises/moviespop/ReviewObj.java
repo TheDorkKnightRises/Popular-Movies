@@ -1,9 +1,11 @@
 package thedorkknightrises.moviespop;
 
+import java.io.Serializable;
+
 /**
  * Created by samri_000 on 4/15/2016.
  */
-public class ReviewObj {
+public class ReviewObj implements Serializable {
 
     String rAuth;
     String rText;

@@ -16,17 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
         </android.support.v7.widget.Toolbar>
 
         <TextView
+            android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:id="@+id/label"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:background="@color/colorPrimaryDark" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
 
     </android.support.design.widget.AppBarLayout>
 

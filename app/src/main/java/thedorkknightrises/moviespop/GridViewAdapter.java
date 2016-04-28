@@ -42,18 +42,17 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
         return movies.indexOf(item);
     }
 
-    private static class ViewHolder {
-        ImageView posterView;
-        TextView title;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(context);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.grid_item, null);
             holder = new ViewHolder();
+            if (MainActivity.getmDualPane() && MainActivity.getWidthFlag()) {
+                convertView = inflater.inflate(R.layout.list_item, null);
+                holder.title = (TextView) convertView.findViewById(R.id.list_title);
+                holder.year = (TextView) convertView.findViewById(R.id.list_year);
+            } else convertView = inflater.inflate(R.layout.grid_item, null);
             holder.posterView = (ImageView) convertView.findViewById(R.id.grid_image);
             holder.posterView.setMinimumHeight(holder.posterView.getWidth()*3/2);
             convertView.setTag(holder);
@@ -65,6 +64,16 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
                 .error(R.drawable.ic_photo_white_24px)
                 .crossFade(500)
                 .into(holder.posterView);
+        if (MainActivity.getmDualPane() && MainActivity.getWidthFlag()) {
+            holder.title.setText(movie.getTitle());
+            holder.year.setText(movie.getYear().substring(8));
+        }
         return convertView;
+    }
+
+    private static class ViewHolder {
+        ImageView posterView;
+        TextView title;
+        TextView year;
     }
 }
