@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,8 +25,8 @@ import java.util.ArrayList;
  */
 public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>> {
 
-    Context context;
     public TrailerAdapter trAdapter;
+    Context context;
     RecyclerView trView;
     ArrayList<TrailerObj> trResults;
     int mId;
@@ -157,10 +156,12 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>
     protected void onPostExecute(ArrayList<TrailerObj> trailers) {
         super.onPostExecute(trailers);
 
-        if (trailers != null) {
+        try {
             trAdapter = new TrailerAdapter(trailers, context, mTitle);
             trView.setAdapter(trAdapter);
             trView.setVisibility(View.VISIBLE);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

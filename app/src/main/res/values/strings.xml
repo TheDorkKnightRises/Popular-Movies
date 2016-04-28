@@ -78,4 +78,6 @@
     <string name="fav_error">Favorites coming soon :D</string>
     <string name="no_login">TMDb sign-in coming in the next major update :D</string>
 
+    <string name="blank_fragment">Tap a movie on the grid to view its details here</string>
+
 </resources>

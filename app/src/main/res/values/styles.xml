@@ -29,8 +29,7 @@
     </style>
 
     <style name="Button" parent="Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
+        <item name="android:padding">4dp</item>
     </style>
     
     <style name="TextAppearance.Medium" parent="TextAppearance.AppCompat">

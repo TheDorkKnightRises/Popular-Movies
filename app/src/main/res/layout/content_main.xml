@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/gridview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/horizontal_padding"
-        android:paddingRight="@dimen/horizontal_padding"
-        android:paddingTop="32dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:verticalSpacing="4dp"
-        android:horizontalSpacing="4dp"
-        android:clickable="true"
-        android:numColumns="@integer/num_col"/>
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:horizontalSpacing="4dp"
+            android:numColumns="@integer/num_col"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding"
+            android:paddingTop="4dp"
+            android:verticalSpacing="4dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

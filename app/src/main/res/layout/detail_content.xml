@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/detail" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".Details">
+    tools:context=".Details"
+    tools:showIn="@layout/detail">
 
     <ScrollView
+        android:id="@+id/detail_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/horizontal_padding"
-        android:id="@+id/detail_scroll">
+        android:clipChildren="false"
+        android:clipToPadding="false">
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/detail_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/horizontal_margin_half">
             <android.support.v7.widget.CardView
-                style="@style/Cards"
                 android:id="@+id/detail_card"
+                style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:contentPadding="16dp" >
                 <RelativeLayout
@@ -28,169 +32,165 @@
                     android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/poster"
                     android:layout_width="@dimen/poster_w"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:id="@+id/poster"
-                    android:transitionName="poster"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:onClick="onPosterClick"
                     android:src="@drawable/ic_photo_white_24px"
-                    tools:targetApi="lollipop" />
+                    android:transitionName="poster" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/rate_text"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/paddingLarge"
-                        android:layout_marginRight="@dimen/horizontal_margin_half"
-                        android:text="@string/rating"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/horizontal_margin_half"
+                        android:layout_marginTop="@dimen/paddingLarge"
+                        android:text="@string/rating"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/ten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_below="@id/rate_text"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:text="/10"
-                        android:id="@+id/ten"
-                        android:layout_alignParentRight="true" />
+                        android:text="/10" />
 
                     <TextView
+                        android:id="@+id/mvote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/ten"
-                        android:layout_marginTop="@dimen/vertical_margin_half"
-                        android:layout_marginRight="@dimen/horizontal_padding"
                         android:layout_alignBottom="@id/ten"
                         android:layout_below="@id/rate_text"
-                        android:text="0.0"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:id="@+id/mvote"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/mvote"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:layout_marginRight="@dimen/horizontal_margin_half"
-                        android:layout_marginEnd="@dimen/horizontal_margin_half"
-                        android:text="@string/release"
-                        android:id="@+id/rel_text"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/rel_text"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginRight="@dimen/horizontal_padding"
-                        android:layout_marginEnd="@dimen/horizontal_padding"
                         android:layout_marginTop="@dimen/vertical_margin_half"
-                        android:textSize="@dimen/text_large"
+                        android:layout_toLeftOf="@id/ten"
+                        android:text="0.0"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    <TextView
+                        android:id="@+id/rel_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/mvote"
+                        android:layout_marginEnd="@dimen/horizontal_margin_half"
+                        android:layout_marginRight="@dimen/horizontal_margin_half"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="@string/release"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/mdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/rel_text"
+                        android:layout_marginEnd="@dimen/horizontal_padding"
+                        android:layout_marginRight="@dimen/horizontal_padding"
+                        android:layout_marginTop="@dimen/vertical_margin_half"
                         android:text="01-01-1970"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:id="@+id/mdate"/>
+                        android:textSize="@dimen/text_large" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                style="@style/Cards"
                 android:id="@id/detail_card"
+                style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:contentPadding="16dp" >
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:id="@+id/plot"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:id="@+id/plot"
-                        android:textStyle="bold"
-                        android:text="@string/synopsis"/>
+                        android:text="@string/synopsis"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold" />
                     <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:id="@+id/mplot"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/mplot"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"/>
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                style="@style/Cards"
                 android:id="@id/detail_card"
+                style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:contentPadding="16dp" >
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:id="@+id/trailer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:id="@+id/trailer"
-                        android:textStyle="bold"
-                        android:text="@string/trailer"/>
+                        android:text="@string/trailer"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold" />
                     <TextView
+                        android:id="@+id/no_tr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/no_tr"
                         android:text="@string/no_trailers"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:visibility="gone"/>
                     <android.support.v7.widget.RecyclerView
-                        android:clickable="true"
                         android:id="@+id/tr_view"
-                        android:scrollbars="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:scrollbars="horizontal"
                         android:visibility="gone"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                style="@style/Cards"
                 android:id="@id/detail_card"
+                style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
-                app:contentPaddingTop="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_horizontal_margin">
+                app:contentPadding="16dp">
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <TextView
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:id="@+id/review"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:paddingRight="@dimen/activity_horizontal_margin"
                         android:layout_marginBottom="8dp"
-                        android:id="@+id/review"
-                        android:textStyle="bold"
-                        android:text="@string/review"/>
+                        android:text="@string/review"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/reviews"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:id="@+id/reviews"
                         android:visibility="gone"/>
 
                     <TextView
+                        android:id="@+id/expandText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/expandReview"
                         android:layout_gravity="end"
+                        android:paddingBottom="@dimen/horizontal_margin_half"
                         android:paddingLeft="@dimen/horizontal_margin_half"
                         android:paddingRight="@dimen/horizontal_margin_half"
-                        android:paddingBottom="@dimen/horizontal_margin_half"
-                        android:id="@+id/expandText"/>
+                        android:text="@string/expandReview" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

@@ -57,7 +57,7 @@ public class MovieObj implements Serializable {
     }
 
     public String getBackdropUrl() {
-        return posterUrl;
+        return bgUrl;
     }
 
     public void setBackdropUrl(String bgUrl) {

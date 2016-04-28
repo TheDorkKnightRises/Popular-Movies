@@ -5,8 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <include
         layout="@layout/app_bar_main"
@@ -14,9 +13,12 @@
         android:layout_height="match_parent" />
 
     <include
+        android:id="@+id/contentPane"
+        android:name="thedorkknightrises.moviespop.MainActivity_Fragment"
         layout="@layout/content_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/content_main" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,8 +26,8 @@ import java.util.ArrayList;
  */
 public class FetchReviews extends AsyncTask<String, Void, ArrayList<ReviewObj>> {
 
-    Context context;
     public ReviewAdapter rAdapter;
+    Context context;
     RecyclerView rView;
     SharedPreferences pref;
     ArrayList<ReviewObj> rResults;
@@ -158,12 +157,15 @@ public class FetchReviews extends AsyncTask<String, Void, ArrayList<ReviewObj>> 
     protected void onPostExecute(ArrayList<ReviewObj> Reviews) {
         super.onPostExecute(Reviews);
 
-        if (Reviews.isEmpty()) {
+        if (Reviews != null)
+            if (Reviews.isEmpty()) {
             Reviews.add(new ReviewObj("", context.getString(R.string.no_reviews)));
-        }
+            }
         rAdapter = new ReviewAdapter(Reviews, context);
-        rView.setAdapter(rAdapter);
-        rView.setVisibility(View.VISIBLE);
+        if (rView != null) {
+            rView.setAdapter(rAdapter);
+            rView.setVisibility(View.VISIBLE);
+        }
     }
 
 }

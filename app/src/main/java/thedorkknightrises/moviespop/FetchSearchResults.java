@@ -26,8 +26,8 @@ import java.util.ArrayList;
  */
 public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieObj>> {
 
-    Context context;
     public GridViewAdapter searchAdapter;
+    Context context;
     GridView gridView;
     SharedPreferences pref;
     ArrayList<MovieObj> movieResults;
@@ -183,9 +183,12 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
     protected void onPostExecute(ArrayList<MovieObj> movies) {
         super.onPostExecute(movies);
 
-        if (movies != null) {
+        MainActivity.getSwipeRefreshLayout().setRefreshing(false);
+        try {
             searchAdapter = new GridViewAdapter(context, movies);
             gridView.setAdapter(searchAdapter);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
     }
