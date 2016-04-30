@@ -1,6 +1,8 @@
 package thedorkknightrises.moviespop;
 
 
+import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +23,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -177,7 +182,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void OnFabClick(View v) {
-        Snackbar.make(v, R.string.fav_error, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.drawer_layout), R.string.fav_error, Snackbar.LENGTH_LONG).show();
     }
 
     public void showDetails(int index) {
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity
         if (mDualPane) {
 
             // Check what fragment is currently shown, replace if needed.
-            Detail_Fragment details = (Detail_Fragment) getSupportFragmentManager()
+            Detail_Fragment details = (Detail_Fragment) getFragmentManager()
                     .findFragmentById(R.id.details);
 
 
@@ -215,10 +220,10 @@ public class MainActivity extends AppCompatActivity
 
                     // Execute a transaction, replacing any existing fragment
                     // with this one inside the frame.
-                    android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                    FragmentTransaction ft = getFragmentManager()
                             .beginTransaction();
                     ft.replace(R.id.details, details);
-                    ft.setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
@@ -236,7 +241,7 @@ public class MainActivity extends AppCompatActivity
         if (mDualPane) {
 
             // Check what fragment is currently shown, replace if needed.
-            Detail_Fragment details = (Detail_Fragment) getSupportFragmentManager()
+            Detail_Fragment details = (Detail_Fragment) getFragmentManager()
                     .findFragmentById(R.id.details);
 
             findViewById(R.id.blankText).setVisibility(View.GONE);
@@ -259,13 +264,12 @@ public class MainActivity extends AppCompatActivity
                 // Make new fragment to show this selection.
                 details = Detail_Fragment.newInstance(index, bundle);
 
-
                 // Execute a transaction, replacing any existing fragment
                 // with this one inside the frame.
-                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                FragmentTransaction ft = getFragmentManager()
                         .beginTransaction();
                 ft.replace(R.id.details, details);
-                ft.setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.commit();
             }
 
@@ -393,19 +397,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
     public void login(View v) {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        AlertDialog.Builder signin= new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
-        signin.setMessage(R.string.no_login)
-                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        Intent i = new Intent(MainActivity.this, Login.class);
+        startActivity(i);
 
     }
 

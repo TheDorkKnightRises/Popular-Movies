@@ -10,21 +10,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/grid_image"
-            android:layout_width="72dp"
+            android:layout_width="0px"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="poster" />
+            android:contentDescription="poster"
+            android:scaleType="fitXY" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0px"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:orientation="vertical"
-            android:padding="@dimen/horizontal_padding">
+            android:padding="@dimen/vertical_margin_half">
 
             <TextView
                 android:id="@+id/list_title"

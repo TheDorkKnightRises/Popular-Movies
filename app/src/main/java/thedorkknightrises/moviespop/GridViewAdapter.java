@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
         LayoutInflater inflater = LayoutInflater.from(context);
         if (convertView == null) {
             holder = new ViewHolder();
-            if (MainActivity.getmDualPane() && MainActivity.getWidthFlag()) {
+            if (MainActivity.getmDualPane() && MainActivity.getWidthFlag() || ((GridView) parent).getNumColumns() == 1) {
                 convertView = inflater.inflate(R.layout.list_item, null);
                 holder.title = (TextView) convertView.findViewById(R.id.list_title);
                 holder.year = (TextView) convertView.findViewById(R.id.list_year);
@@ -64,8 +65,9 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj>{
                 .error(R.drawable.ic_photo_white_24px)
                 .crossFade(500)
                 .into(holder.posterView);
-        if (MainActivity.getmDualPane() && MainActivity.getWidthFlag()) {
+        if (MainActivity.getmDualPane() && MainActivity.getWidthFlag() || ((GridView) parent).getNumColumns() == 1) {
             holder.title.setText(movie.getTitle());
+            if (!movie.getYear().equals(""))
             holder.year.setText(movie.getYear().substring(8));
         }
         return convertView;

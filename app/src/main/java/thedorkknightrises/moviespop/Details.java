@@ -56,6 +56,7 @@ public class Details extends AppCompatActivity {
     String bg;
     Boolean anim;
     Boolean paletteEnabled;
+    Boolean bgEnabled;
     ArrayList<TrailerObj> trailerList = new ArrayList<>();
     ArrayList<ReviewObj> rList = new ArrayList<>();
     RecyclerView tGrid;
@@ -63,7 +64,7 @@ public class Details extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail);
@@ -130,15 +131,6 @@ public class Details extends AppCompatActivity {
         }
         super.onStart();
     }
-
-    @Override
-    public void onBackPressed()
-    {
-        mReView.removeAllViews();
-        mReView.setVisibility(View.GONE);
-        super.onBackPressed();
-    }
-
 
     public void onPosterClick(View v) {
         Intent i = new Intent(Details.this, ImageViewer.class);
@@ -224,10 +216,14 @@ public class Details extends AppCompatActivity {
 
         SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
 
-
         paletteEnabled = pref.getBoolean("palette_enabled", true);
-        if (paletteEnabled == true)
-        new getBitmap(post).execute();
+        bgEnabled = pref.getBoolean("bg_enabled", true);
+
+        if (paletteEnabled == true) {
+            if (bgEnabled)
+                new getBitmap(back).execute();
+            else new getBitmap(post).execute();
+        }
 
         CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
         c.setTitle(t);
@@ -336,6 +332,9 @@ public class Details extends AppCompatActivity {
         protected void onPostExecute(Bitmap bmp)
         {
             super.onPostExecute(bmp);
+
+            View v = findViewById(R.id.detailsCoordinatorLayout);
+
             try {
                 Palette palette= Palette.generate(bmp);
                 CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
@@ -370,9 +369,9 @@ public class Details extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                Snackbar.make(findViewById(R.id.fab), R.string.network, Snackbar.LENGTH_LONG).show();
+                if (v != null)
+                    Snackbar.make(v, R.string.content, Snackbar.LENGTH_LONG).show();
             }
         }
     }
-
 }

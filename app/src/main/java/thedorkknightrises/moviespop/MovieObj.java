@@ -21,8 +21,10 @@ public class MovieObj implements Serializable {
         this.id = i;
         this.title = t;
         this.plot = mPlot;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
-        this.year = simpleDateFormat.format(Date.valueOf(y));
+        if (!y.equals("")) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+            this.year = simpleDateFormat.format(Date.valueOf(y));
+        } else this.year = "";
         this.posterUrl = p;
         this.vote_avg = v;
         this.bgUrl = bg;

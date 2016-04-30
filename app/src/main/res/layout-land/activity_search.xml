@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
         android:fitsSystemWindows="true"
@@ -26,13 +24,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/contentPane"
-                android:name="thedorkknightrises.moviespop.MainActivity_Fragment"
-                layout="@layout/content_main"
+            <GridView
+                android:id="@+id/gridview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout="@layout/content_main" />
+                android:clipToPadding="false"
+                android:horizontalSpacing="4dp"
+                android:numColumns="@integer/num_col"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:paddingRight="@dimen/horizontal_padding"
+                android:paddingTop="4dp"
+                android:verticalSpacing="4dp" />
+
         </LinearLayout>
 
         <FrameLayout
@@ -50,20 +53,8 @@
                 android:padding="@dimen/activity_horizontal_margin"
                 android:text="@string/blank_fragment"
                 android:textAppearance="?android:attr/textAppearanceButton" />
-
         </FrameLayout>
 
     </LinearLayout>
-
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
-
 
 </android.support.v4.widget.DrawerLayout>

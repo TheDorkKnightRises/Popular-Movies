@@ -9,47 +9,96 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".SearchResultsActivity" />
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.Splash">
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
         </activity>
-        <activity android:name=".About"
+
+        <activity
+            android:name=".About"
             android:label="@string/action_about"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
         </activity>
+
         <activity
             android:name=".Details"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ImageViewer"
             android:parentActivityName=".Details"
             android:theme="@style/AppTheme.Transparent">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Details" />
+
         </activity>
-        <activity android:name=".Intro"
+
+        <activity
+            android:name=".Intro"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".Login"
+            android:theme="@style/AppTheme.PopupOverlay" />
+
+        <activity
+            android:name=".SearchResultsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
+
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

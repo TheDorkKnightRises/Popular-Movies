@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/acc_layout"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/acc_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/horizontal_padding"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_account_circle_white_64dp" />
+
+    <TextView
+        android:id="@+id/acc_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="@string/user_blank"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:id="@+id/acc_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc_name">
+
+        <Button
+            android:id="@+id/acc_more"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="more"
+            android:text="@string/acc_more" />
+
+        <Button
+            android:id="@+id/sign_in"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:text="@string/sign_in" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/acc_desc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc_buttons"
+        android:padding="@dimen/horizontal_margin_half"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acc_desc"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </ScrollView>
+
+</RelativeLayout>

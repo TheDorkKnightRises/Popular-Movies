@@ -6,6 +6,6 @@
     <dimen name="vertical_margin_half">16dp</dimen>
     <dimen name="extended_height">150dp</dimen>
     <dimen name="fab_margin">32dp</dimen>
-    <dimen name="poster_w">120dp</dimen>
+    <dimen name="poster_w">150dp</dimen>
     <dimen name="tr_width">280dp</dimen>
 </resources>

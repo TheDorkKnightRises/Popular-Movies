@@ -13,17 +13,17 @@
         android:orientation="vertical">
 
         <include
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <include
-        android:id="@+id/contentPane"
-        android:name="thedorkknightrises.moviespop.MainActivity_Fragment"
-        layout="@layout/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/content_main" />
+        <include
+            android:id="@+id/contentPane"
+            android:name="thedorkknightrises.moviespop.MainActivity_Fragment"
+            layout="@layout/content_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/content_main" />
 
     </LinearLayout>
 
@@ -35,12 +35,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
-    <FrameLayout
-        android:id="@+id/detailscontainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
 
 </android.support.v4.widget.DrawerLayout>

@@ -11,16 +11,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class Detail_Fragment extends Fragment {
+public class Detail_Fragment extends android.app.Fragment {
     static Bundle bundle;
     int id;
     String title;
@@ -53,6 +54,7 @@ public class Detail_Fragment extends Fragment {
     ArrayList<ReviewObj> rList = new ArrayList<>();
     RecyclerView tGrid;
     RecyclerView mReView;
+    CoordinatorLayout coordinatorLayout;
 
     public static Detail_Fragment newInstance(int index, Bundle state) {
         Detail_Fragment f = new Detail_Fragment();
@@ -82,7 +84,6 @@ public class Detail_Fragment extends Fragment {
         return v;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -103,12 +104,25 @@ public class Detail_Fragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.detailsCoordinatorLayout);
+
+        Toolbar toolbar= (Toolbar) getActivity().findViewById(R.id.toolbar_detail);
 
         tGrid = (RecyclerView) getActivity().findViewById(R.id.tr_view);
 
         mReView = (RecyclerView) getActivity().findViewById(R.id.reviews);
 
         try {
+            toolbar.inflateMenu(R.menu.details_menu);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    onOptionsItemSelected(item);
+                    return true;
+                }
+            });
             tGrid.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
             mReView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             mReView.setNestedScrollingEnabled(false);
@@ -139,11 +153,9 @@ public class Detail_Fragment extends Fragment {
             update(title, plot, date, vote, poster, bg);
         }
 
-
         new FetchTrailers(getActivity(), tGrid, trailerList, id, title).execute("trailers");
         new FetchReviews(getActivity(), mReView, rList, id).execute("reviews");
 
-        super.onStart();
     }
 
     @Override
@@ -288,7 +300,9 @@ public class Detail_Fragment extends Fragment {
         @Override
         protected void onPostExecute(Bitmap bmp) {
             super.onPostExecute(bmp);
+
             try {
+
                 Palette palette = Palette.generate(bmp);
                 CollapsingToolbarLayout c = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_collapse);
 
@@ -321,9 +335,7 @@ public class Detail_Fragment extends Fragment {
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                View v = getActivity().findViewById(R.id.detailsCoordinatorLayout);
-                if (v != null)
-                    Snackbar.make(v, R.string.network, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, R.string.content, Snackbar.LENGTH_LONG).show();
             }
         }
     }
