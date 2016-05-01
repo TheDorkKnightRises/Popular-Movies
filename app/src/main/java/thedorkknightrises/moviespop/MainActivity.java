@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -40,9 +41,12 @@ public class MainActivity extends AppCompatActivity
     public static SwipeRefreshLayout swipeRefreshLayout;
     public static Boolean mDualPane;
     public static Boolean widthFlag;
+    public static ArrayList<MovieObj> movieResults = new ArrayList<>();
     private static GridView mGridView;
-    public ArrayList<MovieObj> movieResults = new ArrayList<>();
     public Boolean changed = false;
+    public SQLiteDatabase db;
+    public MovieDbHelper mHelper;
+    SharedPreferences pref;
     int mCurCheckPosition = 0;
     private TextView label;
 
@@ -90,26 +94,30 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mHelper = new MovieDbHelper(this);
+
+        pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+
         //  Declare a new thread to do a preference check
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 //  Initialize SharedPreferences
-                SharedPreferences getPrefs = getPreferences(Context.MODE_PRIVATE);
                 //  Create a new boolean and preference and set it to true
-                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+                boolean isFirstStart = pref.getBoolean("firstStart", true);
                 //  If the activity has never started before...
                 if (isFirstStart) {
                     //  Launch app intro
                     Intent i = new Intent(MainActivity.this, Intro.class);
                     startActivity(i);
                     //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
+                    SharedPreferences.Editor e = pref.edit();
                     //  Edit preference to make it false because we don't want this to run again
                     e.putBoolean("firstStart", false);
                     //  Apply changes
                     e.apply();
                 }
+                db = mHelper.getReadableDatabase();
             }
         });
         // Start the thread
@@ -117,7 +125,11 @@ public class MainActivity extends AppCompatActivity
 
         widthFlag = (this.getResources().getConfiguration().screenWidthDp < 720);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+
         mGridView = (GridView) findViewById(R.id.gridview);
+
+        String sort = pref.getString("sort", "popular");
 
         if (savedInstanceState == null)
             populateMovies();
@@ -135,9 +147,7 @@ public class MainActivity extends AppCompatActivity
 
         label = (TextView) findViewById(R.id.label);
 
-        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String s = pref.getString("sort", "popular");
-        switch (s) {
+        switch (sort) {
             case "popular":
                 label.setText(getString(R.string.pop));
                 break;
@@ -155,13 +165,12 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (isConnected(getApplicationContext())) {
+                    if (isConnected(getApplicationContext()) || pref.getString("sort", "popular").equals("fav")) {
                         populateMovies();
                     } else {
                         Snackbar.make(drawer, R.string.refresh_error, Snackbar.LENGTH_LONG)
@@ -174,15 +183,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         state.putInt("curChoice", mCurCheckPosition);
         state.putBoolean("changed", changed);
         state.putSerializable("results", movieResults);
-    }
-
-    public void OnFabClick(View v) {
-        Snackbar.make(findViewById(R.id.drawer_layout), R.string.fav_error, Snackbar.LENGTH_LONG).show();
     }
 
     public void showDetails(int index) {
@@ -205,7 +216,7 @@ public class MainActivity extends AppCompatActivity
                 bundle.putString("title", m.getTitle());
                 bundle.putString("release_date", m.getYear());
                 bundle.putString("vote_avg", m.getRating());
-                bundle.putString("plot", m.getPlot());
+                bundle.putString("overview", m.getOverview());
                 bundle.putString("poster", m.getPosterUrl());
                 bundle.putString("bg", m.getBackdropUrl());
 
@@ -253,7 +264,7 @@ public class MainActivity extends AppCompatActivity
             bundle.putString("title", m.getTitle());
             bundle.putString("release_date", m.getYear());
             bundle.putString("vote_avg", m.getRating());
-            bundle.putString("plot", m.getPlot());
+            bundle.putString("overview", m.getOverview());
             bundle.putString("poster", m.getPosterUrl());
             bundle.putString("bg", m.getBackdropUrl());
 
@@ -283,10 +294,9 @@ public class MainActivity extends AppCompatActivity
             i.putExtra("title", m.title);
             i.putExtra("release_date", m.year);
             i.putExtra("vote_avg", m.vote_avg);
-            i.putExtra("plot", m.plot);
+            i.putExtra("overview", m.overview);
             i.putExtra("poster", m.posterUrl);
             i.putExtra("bg", m.bgUrl);
-            SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
             Boolean anim = pref.getBoolean("anim_enabled", true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
@@ -341,7 +351,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        SharedPreferences pref = getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
         label = (TextView) findViewById(R.id.label);
@@ -424,9 +433,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void populateMovies() {
-        
+
         mGridView.removeAllViewsInLayout();
-        new FetchSearchResults(this, mGridView, movieResults, getSharedPreferences("Prefs", MODE_PRIVATE)).execute("discover");
+        String sort = pref.getString("sort", "popular");
+        if (sort.equals("fav")) {
+            movieResults = mHelper.getAllMovies();
+            GridViewAdapter mAdapter = new GridViewAdapter(this, movieResults);
+            mGridView.setAdapter(mAdapter);
+            swipeRefreshLayout.setRefreshing(false);
+            if (movieResults.isEmpty()) {
+                Snackbar.make(swipeRefreshLayout, R.string.no_fav, Snackbar.LENGTH_LONG).show();
+            }
+        } else new FetchSearchResults(this, mGridView, movieResults, pref).execute("discover");
 
     }
 }

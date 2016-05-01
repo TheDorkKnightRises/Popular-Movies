@@ -124,9 +124,6 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
 
         {
             String error;
-            if (sort.equals("fav"))
-                error = context.getString(R.string.fav_error);
-            else
                 error = context.getString(R.string.network);
 
             Snackbar snackbar = Snackbar.make(gridView, error, Snackbar.LENGTH_LONG);

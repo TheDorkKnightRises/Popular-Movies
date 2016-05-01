@@ -47,6 +47,7 @@ public class Detail_Fragment extends android.app.Fragment {
     String poster;
     String vote;
     String bg;
+    String sort;
     Boolean anim;
     Boolean paletteEnabled;
     Boolean bgEnabled;
@@ -55,6 +56,7 @@ public class Detail_Fragment extends android.app.Fragment {
     RecyclerView tGrid;
     RecyclerView mReView;
     CoordinatorLayout coordinatorLayout;
+    MovieDbHelper mHelper;
 
     public static Detail_Fragment newInstance(int index, Bundle state) {
         Detail_Fragment f = new Detail_Fragment();
@@ -108,34 +110,18 @@ public class Detail_Fragment extends android.app.Fragment {
 
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.detailsCoordinatorLayout);
 
-        Toolbar toolbar= (Toolbar) getActivity().findViewById(R.id.toolbar_detail);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_detail);
 
-        tGrid = (RecyclerView) getActivity().findViewById(R.id.tr_view);
+        mHelper = new MovieDbHelper(getActivity());
 
-        mReView = (RecyclerView) getActivity().findViewById(R.id.reviews);
-
-        try {
-            toolbar.inflateMenu(R.menu.details_menu);
-            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    onOptionsItemSelected(item);
-                    return true;
-                }
-            });
-            tGrid.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-            mReView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            mReView.setNestedScrollingEnabled(false);
-            mReView.setHasFixedSize(true);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        SharedPreferences pref = getActivity().getSharedPreferences("Prefs", getActivity().MODE_PRIVATE);
+        sort = pref.getString("sort", "popular");
 
         if (savedInstanceState == null) {
             if (bundle != null) {
                 id = bundle.getInt("id", 550);
                 title = bundle.getString("title", "Title");
-                plot = bundle.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+                plot = bundle.getString("overview", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
                 date = bundle.getString("release_date", "01-01-1970");
                 poster = bundle.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
                 vote = bundle.getString("vote_avg", "0.0");
@@ -145,7 +131,7 @@ public class Detail_Fragment extends android.app.Fragment {
         } else {
             id = savedInstanceState.getInt("id");
             title = savedInstanceState.getString("title", "Title");
-            plot = savedInstanceState.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+            plot = savedInstanceState.getString("overview", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
             date = savedInstanceState.getString("release_date", "01-01-1970");
             poster = savedInstanceState.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
             vote = savedInstanceState.getString("vote_avg", "0.0");
@@ -153,9 +139,55 @@ public class Detail_Fragment extends android.app.Fragment {
             update(title, plot, date, vote, poster, bg);
         }
 
-        new FetchTrailers(getActivity(), tGrid, trailerList, id, title).execute("trailers");
-        new FetchReviews(getActivity(), mReView, rList, id).execute("reviews");
+        try {
+            if (!sort.equals("fav")) {
+                tGrid = (RecyclerView) getActivity().findViewById(R.id.tr_view);
+                mReView = (RecyclerView) getActivity().findViewById(R.id.reviews);
+            tGrid.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            mReView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+            mReView.setNestedScrollingEnabled(false);
+            mReView.setHasFixedSize(true);
+                new FetchTrailers(getActivity(), tGrid, trailerList, id, title).execute("trailers");
+                new FetchReviews(getActivity(), mReView, rList, id).execute("reviews");
+            } else {
+                getActivity().findViewById(R.id.detail_card_trailer).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.detail_card_review).setVisibility(View.GONE);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
+        if (toolbar != null) {
+            toolbar.inflateMenu(R.menu.details_menu);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    onOptionsItemSelected(item);
+                    return true;
+                }
+            });
+        }
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        if (fab != null)
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnFabClick(v);
+                }
+            });
+    }
+
+    public void OnFabClick(View v) {
+        if (mHelper.movieExists(id)) {
+            mHelper.deleteMovie(id);
+            ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_white_24px));
+            Snackbar.make(coordinatorLayout, R.string.removed, Snackbar.LENGTH_SHORT).show();
+        } else {
+            mHelper.addMovie(id, title, plot, date, vote, poster, bg);
+            ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white_24px));
+            Snackbar.make(coordinatorLayout, R.string.added, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -163,7 +195,7 @@ public class Detail_Fragment extends android.app.Fragment {
         super.onSaveInstanceState(state);
         state.putInt("id", id);
         state.putString("title", title);
-        state.putString("plot", plot);
+        state.putString("overview", plot);
         state.putString("release_date", date);
         state.putString("vote_avg", vote);
         state.putString("poster", poster);
@@ -236,7 +268,11 @@ public class Detail_Fragment extends android.app.Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
+        if (mHelper.movieExists(id)) {
+            if ((getActivity().findViewById(R.id.fab)) != null) {
+                ((FloatingActionButton) getActivity().findViewById(R.id.fab)).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white_24px));
+            }
+        }
     }
 
     public void onPosterClick(View v) {
@@ -283,6 +319,7 @@ public class Detail_Fragment extends android.app.Fragment {
 
         @Override
         protected Bitmap doInBackground(String... params) {
+
             try {
                 URL url = new URL(src);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -329,12 +366,13 @@ public class Detail_Fragment extends android.app.Fragment {
                     fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
                 else if (palette.getMutedSwatch() != null)
                     fab.setRippleColor(palette.getMutedSwatch().getRgb());
-                getActivity().findViewById(R.id.detail_scroll).setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
+                coordinatorLayout.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
+                if (coordinatorLayout != null && !sort.equals("fav"))
                     Snackbar.make(coordinatorLayout, R.string.content, Snackbar.LENGTH_LONG).show();
             }
         }

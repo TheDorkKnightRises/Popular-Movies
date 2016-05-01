@@ -31,7 +31,7 @@
 
     <string name="pop">Most Popular</string>
     <string name="high">Top Rated</string>
-    <string name="fav">Favorites (coming soon)</string>
+    <string name="fav">Favorites</string>
     <string name="up">Upcoming</string>
     <string name="now">Playing now</string>
 
@@ -69,16 +69,19 @@
 
     <string name="network">Unable to fetch content from server. Please check your connection or try again later</string>
     <string name="refresh_error">Failed to  refresh content from server. Check your network status</string>
-    <string name="no_results">No results returned. Try again later</string>
+    <string name="no_results">No results returned</string>
+    <string name="no_fav">No Favorites to show</string>
     <string name="content">Failed to retrieve all content. Data does not exist in database or connection lost</string>
+    <string name="added">Added to Favorites</string>
+    <string name="removed">Removed from Favorites</string>
+
     <string name="no_trailers">No trailers found :(</string>
     <string name="no_reviews">No reviews found :(</string>
     <string name="author">Review by:\ </string>
     <string name="unknown">Unknown</string>
     <string name="expandReview">(Tap the text to view full review)</string>
 
-
-    <string name="fav_error">Favorites coming soon :D</string>
+    <string name="fav_error">Error fetching favorites</string>
     <string name="no_login">TMDb sign-in coming in the next major update :D</string>
 
     <string name="blank_fragment">Tap a movie on the grid to view its details here</string>

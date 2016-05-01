@@ -56,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/fab_margin"
         android:clickable="true"
-        android:onClick="OnFabClick"
         android:src="@drawable/ic_favorite_border_white_24px"
         app:borderWidth="0dp"
         app:elevation="@dimen/activity_horizontal_margin"

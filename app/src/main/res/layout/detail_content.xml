@@ -13,7 +13,7 @@
     <ScrollView
         android:id="@+id/detail_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false">
         <LinearLayout
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/plot"
+                        android:id="@+id/overview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -125,7 +125,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                android:id="@id/detail_card"
+                android:id="@+id/detail_card_trailer"
                 style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:contentPadding="16dp" >
@@ -158,7 +158,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                android:id="@id/detail_card"
+                android:id="@+id/detail_card_review"
                 style="@style/Cards"
                 app:cardBackgroundColor="@color/cardview_dark_background"
                 app:contentPadding="16dp">

@@ -14,13 +14,13 @@ public class MovieObj implements Serializable {
     String year;
     String posterUrl;
     String bgUrl;
-    String plot;
+    String overview;
     String vote_avg;
 
     public MovieObj(int i, String t, String y, String v, String p, String mPlot, String bg) {
         this.id = i;
         this.title = t;
-        this.plot = mPlot;
+        this.overview = mPlot;
         if (!y.equals("")) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
             this.year = simpleDateFormat.format(Date.valueOf(y));
@@ -66,12 +66,12 @@ public class MovieObj implements Serializable {
         this.bgUrl = bgUrl;
     }
 
-    public String getPlot() {
-        return plot;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setPlot(String plot) {
-        this.plot = plot;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getRating() { return vote_avg; }

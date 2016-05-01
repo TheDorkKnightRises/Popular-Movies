@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -54,6 +55,7 @@ public class Details extends AppCompatActivity {
     String poster;
     String vote;
     String bg;
+    String sort;
     Boolean anim;
     Boolean paletteEnabled;
     Boolean bgEnabled;
@@ -61,7 +63,8 @@ public class Details extends AppCompatActivity {
     ArrayList<ReviewObj> rList = new ArrayList<>();
     RecyclerView tGrid;
     RecyclerView mReView;
-
+    CoordinatorLayout coordinatorLayout;
+    MovieDbHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,10 @@ public class Details extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detailsCoordinatorLayout);
+
+        mHelper = new MovieDbHelper(this);
+
         if (savedInstanceState==null)
         {
             Bundle extras= getIntent().getExtras();
@@ -80,7 +87,7 @@ public class Details extends AppCompatActivity {
             {
                 id= extras.getInt("id");
                 title= extras.getString("title", "Title");
-                plot= extras.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+                plot = extras.getString("overview", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
                 date= extras.getString("release_date", "01-01-1970");
                 poster= extras.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
                 vote= extras.getString("vote_avg", "0.0");
@@ -92,7 +99,7 @@ public class Details extends AppCompatActivity {
         {
             id= savedInstanceState.getInt("id");
             title= savedInstanceState.getString("title", "Title");
-            plot= savedInstanceState.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+            plot = savedInstanceState.getString("overview", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
             date= savedInstanceState.getString("release_date", "01-01-1970");
             poster= savedInstanceState.getString("poster","https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
             vote= savedInstanceState.getString("vote_avg", "0.0");
@@ -100,22 +107,37 @@ public class Details extends AppCompatActivity {
             update(title, plot, date, vote, poster, bg);
         }
 
-        tGrid = (RecyclerView) findViewById(R.id.tr_view);
-        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mReView = (RecyclerView) findViewById(R.id.reviews);
-        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mReView.setNestedScrollingEnabled(false);
-        mReView.setHasFixedSize(true);
+        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+        sort = pref.getString("sort", "popular");
+        anim = pref.getBoolean("anim_enabled", true);
 
-        new FetchTrailers(this, tGrid, trailerList, id, title).execute("trailers");
-        new FetchReviews(this, mReView, rList, id).execute("reviews");
+        if (!sort.equals("fav")) {
+            tGrid = (RecyclerView) findViewById(R.id.tr_view);
+            mReView = (RecyclerView) findViewById(R.id.reviews);
+            tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            mReView.setNestedScrollingEnabled(false);
+            mReView.setHasFixedSize(true);
 
+            new FetchTrailers(this, tGrid, trailerList, id, title).execute("trailers");
+            new FetchReviews(this, mReView, rList, id).execute("reviews");
+        } else {
+            findViewById(R.id.detail_card_trailer).setVisibility(View.GONE);
+            findViewById(R.id.detail_card_review).setVisibility(View.GONE);
+        }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (fab != null)
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnFabClick(v);
+                }
+            });
     }
 
     @Override
     protected void onStart() {
-        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
-        anim = pref.getBoolean("anim_enabled", true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
             Slide slide = new Slide(Gravity.BOTTOM);
             slide.addTarget(R.id.detail_card);
@@ -197,7 +219,7 @@ public class Details extends AppCompatActivity {
         super.onSaveInstanceState(state);
         state.putInt("id", id);
         state.putString("title", title);
-        state.putString("plot", plot);
+        state.putString("overview", plot);
         state.putString("release_date", date);
         state.putString("vote_avg", vote);
         state.putString("poster", poster);
@@ -262,6 +284,11 @@ public class Details extends AppCompatActivity {
                 }
             });
         }
+        if (mHelper.movieExists(id)) {
+            if (findViewById(R.id.fab) != null) {
+                ((FloatingActionButton) findViewById(R.id.fab)).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white_24px));
+            }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -299,7 +326,15 @@ public class Details extends AppCompatActivity {
 
     public void OnFabClick(View v)
     {
-        Snackbar.make(v, R.string.fav_error, Snackbar.LENGTH_LONG).show();
+        if (mHelper.movieExists(id)) {
+            mHelper.deleteMovie(id);
+            ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_white_24px));
+            Snackbar.make(coordinatorLayout, R.string.removed, Snackbar.LENGTH_SHORT).show();
+        } else {
+            mHelper.addMovie(id, title, plot, date, vote, poster, bg);
+            ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white_24px));
+            Snackbar.make(coordinatorLayout, R.string.added, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -314,6 +349,7 @@ public class Details extends AppCompatActivity {
         }
         @Override
         protected Bitmap doInBackground(String... params) {
+
             try {
                 URL url = new URL(src);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -332,8 +368,6 @@ public class Details extends AppCompatActivity {
         protected void onPostExecute(Bitmap bmp)
         {
             super.onPostExecute(bmp);
-
-            View v = findViewById(R.id.detailsCoordinatorLayout);
 
             try {
                 Palette palette= Palette.generate(bmp);
@@ -363,14 +397,14 @@ public class Details extends AppCompatActivity {
                     fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
                 else if(palette.getMutedSwatch()!=null)
                     fab.setRippleColor(palette.getMutedSwatch().getRgb());
-                findViewById(R.id.detail_scroll).setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
+                coordinatorLayout.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                if (v != null)
-                    Snackbar.make(v, R.string.content, Snackbar.LENGTH_LONG).show();
+                if (coordinatorLayout != null && !sort.equals("fav"))
+                    Snackbar.make(coordinatorLayout, R.string.content, Snackbar.LENGTH_LONG).show();
             }
         }
     }

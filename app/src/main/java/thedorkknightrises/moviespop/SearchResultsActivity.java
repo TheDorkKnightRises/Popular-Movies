@@ -116,7 +116,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 bundle.putString("title", m.getTitle());
                 bundle.putString("release_date", m.getYear());
                 bundle.putString("vote_avg", m.getRating());
-                bundle.putString("plot", m.getPlot());
+                bundle.putString("overview", m.getOverview());
                 bundle.putString("poster", m.getPosterUrl());
                 bundle.putString("bg", m.getBackdropUrl());
 
@@ -164,7 +164,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             bundle.putString("title", m.getTitle());
             bundle.putString("release_date", m.getYear());
             bundle.putString("vote_avg", m.getRating());
-            bundle.putString("plot", m.getPlot());
+            bundle.putString("overview", m.getOverview());
             bundle.putString("poster", m.getPosterUrl());
             bundle.putString("bg", m.getBackdropUrl());
 
@@ -194,7 +194,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             i.putExtra("title", m.title);
             i.putExtra("release_date", m.year);
             i.putExtra("vote_avg", m.vote_avg);
-            i.putExtra("plot", m.plot);
+            i.putExtra("overview", m.overview);
             i.putExtra("poster", m.posterUrl);
             i.putExtra("bg", m.bgUrl);
 
