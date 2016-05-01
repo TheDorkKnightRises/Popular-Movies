@@ -36,6 +36,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -74,6 +75,27 @@ public class MainActivity extends AppCompatActivity
     public static Boolean getWidthFlag() {
         if (widthFlag) mGridView.setNumColumns(1);
         return widthFlag;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        final String action = intent.getAction();
+        int id = 0;
+        if (Intent.ACTION_VIEW.equals(action)) {
+            final List<String> segments = intent.getData().getPathSegments();
+            if (segments.size() >= 1) {
+                String str = segments.get(1);
+                int end = (str.indexOf('-') == (-1)) ? str.length() : str.indexOf('-');
+                id = Integer.parseInt(str.substring(0, end));
+            }
+            // Check what fragment is currently shown, replace if needed.
+            Detail_Fragment details = (Detail_Fragment) getFragmentManager()
+                    .findFragmentById(R.id.details);
+            FragmentTransaction ft = getFragmentManager()
+                    .beginTransaction();
+            new FetchMovie(this, findViewById(R.id.blankText), details, ft, id, getSharedPreferences("Prefs", MODE_PRIVATE)).execute("fetch");
+        }
     }
 
     @Override
@@ -134,8 +156,12 @@ public class MainActivity extends AppCompatActivity
 
         String sort = pref.getString("sort", "popular");
 
-        if (savedInstanceState == null)
+
+        if (savedInstanceState == null) {
             populateMovies();
+            if (getIntent().getAction() == Intent.ACTION_VIEW)
+                onNewIntent(getIntent());
+        }
         else {
             movieResults = (ArrayList<MovieObj>) savedInstanceState.getSerializable("results");
             GridViewAdapter mAdapter = new GridViewAdapter(this, movieResults);
@@ -196,7 +222,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     // Connectivity state has changed
                     if (isConnected(getBaseContext())) {
-                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, "Connection restored", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, R.string.conn, Snackbar.LENGTH_LONG);
                         if (!pref.getString("sort", "popular").equals("fav"))
                             snackbar.setAction(R.string.refresh, new View.OnClickListener() {
                                 @Override
@@ -206,7 +232,7 @@ public class MainActivity extends AppCompatActivity
                             });
                         snackbar.show();
                     } else if (!isConnected(getBaseContext())) {
-                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, "Connection lost", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, R.string.no_conn, Snackbar.LENGTH_LONG);
                         if (!pref.getString("sort", "popular").equals("fav"))
                             snackbar.setAction(R.string.fav, new View.OnClickListener() {
                                 @Override

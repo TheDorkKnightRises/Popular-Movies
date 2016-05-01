@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,11 +37,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by samri_000 on 3/20/2016
@@ -59,6 +55,7 @@ public class Details extends AppCompatActivity {
     Boolean anim;
     Boolean paletteEnabled;
     Boolean bgEnabled;
+    SharedPreferences pref;
     ArrayList<TrailerObj> trailerList = new ArrayList<>();
     ArrayList<ReviewObj> rList = new ArrayList<>();
     RecyclerView tGrid;
@@ -107,7 +104,7 @@ public class Details extends AppCompatActivity {
             update(title, plot, date, vote, poster, bg);
         }
 
-        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+        pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         sort = pref.getString("sort", "popular");
         anim = pref.getBoolean("anim_enabled", true);
 
@@ -167,8 +164,8 @@ public class Details extends AppCompatActivity {
             appBarLayout.setExpanded(true);
             i.putExtra("image", bg);
         }
+        i.putExtra("title", title);
 
-        SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
         anim = pref.getBoolean("anim_enabled", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
@@ -206,7 +203,7 @@ public class Details extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (itemId == R.id.share_details) {
             Intent sharePage = new Intent(Intent.ACTION_SEND);
-            String url= "https://www.themoviedb.org/movie/"+id;
+            String url = title + " at The Movie Database\nhttps://www.themoviedb.org/movie/" + id;
             sharePage.putExtra(Intent.EXTRA_TEXT, url);
             sharePage.setType("text/plain");
             startActivity(Intent.createChooser(sharePage, "Share link via"));
@@ -236,14 +233,14 @@ public class Details extends AppCompatActivity {
         }
     }
 
-    public void update(String t, String p, String d, String v, final String post, String back)  {
+    public void update(String t, String p, String d, String v, String post, String back) {
 
-        SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
+        pref = getSharedPreferences("Prefs", MODE_PRIVATE);
 
         paletteEnabled = pref.getBoolean("palette_enabled", true);
         bgEnabled = pref.getBoolean("bg_enabled", true);
 
-        if (paletteEnabled == true) {
+        if (paletteEnabled) {
             if (bgEnabled)
                 new getBitmap(back).execute();
             else new getBitmap(post).execute();
@@ -259,9 +256,11 @@ public class Details extends AppCompatActivity {
         ImageView poster= (ImageView) findViewById(R.id.poster);
         ImageView backdrop= (ImageView) findViewById(R.id.bg_img);
         poster.setMinimumHeight(poster.getWidth());
+
         plot.setText(p);
         date.setText(d);
         vote.setText(v);
+
         Glide.with(this)
                 .load(post)
                 .crossFade(500)
@@ -293,6 +292,7 @@ public class Details extends AppCompatActivity {
         }
     }
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupEnterAnimation() {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition);
@@ -301,27 +301,18 @@ public class Details extends AppCompatActivity {
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-
             }
-
             @Override
             public void onTransitionEnd(Transition transition) {
-
             }
-
             @Override
             public void onTransitionCancel(Transition transition) {
-
             }
-
             @Override
             public void onTransitionPause(Transition transition) {
-
             }
-
             @Override
             public void onTransitionResume(Transition transition) {
-
             }
         });
     }
@@ -353,15 +344,14 @@ public class Details extends AppCompatActivity {
         protected Bitmap doInBackground(String... params) {
 
             try {
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                bit= BitmapFactory.decodeStream(input);
-            } catch (IOException e) {
+                bit = Glide
+                        .with(getBaseContext())
+                        .load(src)
+                        .asBitmap()
+                        .into(-1, -1)
+                        .get();
+            } catch (final ExecutionException | InterruptedException e) {
                 e.printStackTrace();
-                bit= null;
             }
             return bit;
         }
@@ -372,32 +362,32 @@ public class Details extends AppCompatActivity {
             super.onPostExecute(bmp);
 
             try {
-                Palette palette= Palette.generate(bmp);
-                CollapsingToolbarLayout c= (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
 
-                if(palette.getDarkVibrantSwatch()!=null) {
+                Palette palette = Palette.generate(bmp);
+                CollapsingToolbarLayout c = (CollapsingToolbarLayout) findViewById(R.id.toolbar_collapse);
+
+                if (palette.getDarkVibrantSwatch() != null) {
                     c.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
                     c.setBackgroundColor(palette.getDarkVibrantSwatch().getRgb());
                     c.setStatusBarScrimColor(palette.getDarkVibrantSwatch().getRgb());
-                }
-                else {
+                } else {
                     c.setContentScrimColor(palette.getMutedSwatch().getRgb());
                     c.setBackgroundColor(palette.getMutedSwatch().getRgb());
                     c.setStatusBarScrimColor(palette.getMutedSwatch().getRgb());
                 }
-                FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
-                if(palette.getVibrantSwatch()!=null)
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                if (palette.getVibrantSwatch() != null)
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantSwatch().getRgb()));
-                else if (palette.getLightVibrantSwatch()!=null)
+                else if (palette.getLightVibrantSwatch() != null)
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightVibrantSwatch().getRgb()));
-                else if (palette.getDarkVibrantSwatch()!=null)
+                else if (palette.getDarkVibrantSwatch() != null)
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getDarkVibrantSwatch().getRgb()));
                 else
                     fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightMutedColor(Color.parseColor("#ff315b"))));
 
-                if(palette.getDarkMutedSwatch()!=null)
+                if (palette.getDarkMutedSwatch() != null)
                     fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
-                else if(palette.getMutedSwatch()!=null)
+                else if (palette.getMutedSwatch() != null)
                     fab.setRippleColor(palette.getMutedSwatch().getRgb());
                 coordinatorLayout.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
 

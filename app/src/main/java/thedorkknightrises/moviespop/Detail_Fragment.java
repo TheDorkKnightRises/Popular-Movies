@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,11 +30,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class Detail_Fragment extends android.app.Fragment {
@@ -96,7 +92,7 @@ public class Detail_Fragment extends android.app.Fragment {
         //noinspection SimplifiableIfStatement
         if (itemId == R.id.share_details) {
             Intent sharePage = new Intent(Intent.ACTION_SEND);
-            String url = "https://www.themoviedb.org/movie/" + id;
+            String url = title+" at The Movie Database\nhttps://www.themoviedb.org/movie/" + id;
             sharePage.putExtra(Intent.EXTRA_TEXT, url);
             sharePage.setType("text/plain");
             startActivity(Intent.createChooser(sharePage, "Share link via"));
@@ -211,6 +207,7 @@ public class Detail_Fragment extends android.app.Fragment {
         paletteEnabled = pref.getBoolean("palette_enabled", true);
         bgEnabled = pref.getBoolean("bg_enabled", true);
 
+
         if (paletteEnabled) {
             if (bgEnabled)
                 new getBitmap(back).execute();
@@ -232,12 +229,12 @@ public class Detail_Fragment extends android.app.Fragment {
             plot.setText(p);
             date.setText(d);
             vote.setText(v);
-            Glide.with(this)
+            Glide.with(getActivity())
                     .load(post)
                     .crossFade(500)
                     .into(poster);
             if (bgEnabled) {
-                Glide.with(this)
+                Glide.with(getActivity())
                         .load(back)
                         .crossFade(750)
                         .into(backdrop);
@@ -261,7 +258,6 @@ public class Detail_Fragment extends android.app.Fragment {
                 poster.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SharedPreferences p = getActivity().getSharedPreferences("Prefs", getActivity().MODE_PRIVATE);
                         onPosterClick(v);
                     }
                 });
@@ -287,6 +283,7 @@ public class Detail_Fragment extends android.app.Fragment {
             appBarLayout.setExpanded(true);
             i.putExtra("image", bg);
         }
+        i.putExtra("title", title);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
@@ -318,17 +315,16 @@ public class Detail_Fragment extends android.app.Fragment {
         @Override
         protected Bitmap doInBackground(String... params) {
 
-            try {
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                bit = BitmapFactory.decodeStream(input);
-            } catch (IOException e) {
-                e.printStackTrace();
-                bit = null;
-            }
+                try {
+                    bit = Glide
+                            .with(getActivity())
+                            .load(src)
+                            .asBitmap()
+                            .into(-1,-1)
+                            .get();
+                } catch (final ExecutionException | InterruptedException | NullPointerException e) {
+                    e.printStackTrace();
+                }
             return bit;
         }
 
@@ -336,43 +332,43 @@ public class Detail_Fragment extends android.app.Fragment {
         protected void onPostExecute(Bitmap bmp) {
             super.onPostExecute(bmp);
 
-            try {
+                try {
 
-                Palette palette = Palette.generate(bmp);
-                CollapsingToolbarLayout c = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_collapse);
+                    Palette palette = Palette.generate(bmp);
+                    CollapsingToolbarLayout c = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_collapse);
 
-                if (palette.getDarkVibrantSwatch() != null) {
-                    c.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
-                    c.setBackgroundColor(palette.getDarkVibrantSwatch().getRgb());
-                    c.setStatusBarScrimColor(palette.getDarkVibrantSwatch().getRgb());
-                } else {
-                    c.setContentScrimColor(palette.getMutedSwatch().getRgb());
-                    c.setBackgroundColor(palette.getMutedSwatch().getRgb());
-                    c.setStatusBarScrimColor(palette.getMutedSwatch().getRgb());
+                    if (palette.getDarkVibrantSwatch() != null) {
+                        c.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
+                        c.setBackgroundColor(palette.getDarkVibrantSwatch().getRgb());
+                        c.setStatusBarScrimColor(palette.getDarkVibrantSwatch().getRgb());
+                    } else {
+                        c.setContentScrimColor(palette.getMutedSwatch().getRgb());
+                        c.setBackgroundColor(palette.getMutedSwatch().getRgb());
+                        c.setStatusBarScrimColor(palette.getMutedSwatch().getRgb());
+                    }
+                    FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+                    if (palette.getVibrantSwatch() != null)
+                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantSwatch().getRgb()));
+                    else if (palette.getLightVibrantSwatch() != null)
+                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightVibrantSwatch().getRgb()));
+                    else if (palette.getDarkVibrantSwatch() != null)
+                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getDarkVibrantSwatch().getRgb()));
+                    else
+                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightMutedColor(Color.parseColor("#ff315b"))));
+
+                    if (palette.getDarkMutedSwatch() != null)
+                        fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
+                    else if (palette.getMutedSwatch() != null)
+                        fab.setRippleColor(palette.getMutedSwatch().getRgb());
+                    coordinatorLayout.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    if (coordinatorLayout != null && !sort.equals("fav"))
+                        Snackbar.make(coordinatorLayout, R.string.content, Snackbar.LENGTH_LONG).show();
                 }
-                FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-                if (palette.getVibrantSwatch() != null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantSwatch().getRgb()));
-                else if (palette.getLightVibrantSwatch() != null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightVibrantSwatch().getRgb()));
-                else if (palette.getDarkVibrantSwatch() != null)
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getDarkVibrantSwatch().getRgb()));
-                else
-                    fab.setBackgroundTintList(ColorStateList.valueOf(palette.getLightMutedColor(Color.parseColor("#ff315b"))));
-
-                if (palette.getDarkMutedSwatch() != null)
-                    fab.setRippleColor(palette.getDarkMutedSwatch().getRgb());
-                else if (palette.getMutedSwatch() != null)
-                    fab.setRippleColor(palette.getMutedSwatch().getRgb());
-                coordinatorLayout.setBackgroundColor(palette.getDarkMutedSwatch().getRgb());
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                if (coordinatorLayout != null && !sort.equals("fav"))
-                    Snackbar.make(coordinatorLayout, R.string.content, Snackbar.LENGTH_LONG).show();
-            }
         }
     }
 }

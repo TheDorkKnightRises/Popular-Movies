@@ -61,7 +61,6 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         values.put(MovieDb.MovieEntry.COLUMN_NAME_POSTER, poster);
         values.put(MovieDb.MovieEntry.COLUMN_NAME_BACKDROP, bg);
 
-        // Inserting Row
         db.insert(MovieDb.MovieEntry.TABLE_NAME, null, values);
         Log.d("DB", "Added");
         db.close();
@@ -93,13 +92,11 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     public ArrayList<MovieObj> getAllMovies() {
         ArrayList<MovieObj> mList = new ArrayList<MovieObj>();
-        // Select All Query
         String selectQuery = "SELECT  * FROM " + MovieDb.MovieEntry.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 MovieObj movieObj = new MovieObj(0, "", "", "", "", "", "");
@@ -117,24 +114,6 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return contact list
         return mList;
-    }
-
-    public int updateMovie(MovieObj movieObj) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_TITLE, movieObj.getTitle());
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_OVERVIEW, movieObj.getOverview());
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_YEAR, movieObj.getYear());
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_VOTE, movieObj.getRating());
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_POSTER, movieObj.getPosterUrl());
-        values.put(MovieDb.MovieEntry.COLUMN_NAME_BACKDROP, movieObj.getBackdropUrl());
-
-        db.close();
-        // updating row
-        return db.update(MovieDb.MovieEntry.TABLE_NAME, values, MovieDb.MovieEntry._ID + " = ?",
-                new String[]{String.valueOf(movieObj.getId())});
     }
 }

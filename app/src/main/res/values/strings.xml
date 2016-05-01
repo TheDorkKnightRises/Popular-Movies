@@ -72,6 +72,11 @@
     <string name="no_results">No results returned</string>
     <string name="no_fav">No Favorites to show</string>
     <string name="content">Failed to retrieve all content. Data does not exist in database or connection lost</string>
+    <string name="conn">Connection restored</string>
+    <string name="no_conn">Connection lost</string>
+    <string name="loading">Loading…</string>
+    <string name="processing">Processing…</string>
+    <string name="no_png">Could not obtain PNG, sharing link instead</string>
     <string name="added">Added to Favorites</string>
     <string name="removed">Removed from Favorites</string>
 
