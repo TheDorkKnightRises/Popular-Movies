@@ -144,6 +144,7 @@ public class Details extends AppCompatActivity {
             slide.addTarget(R.id.app_bar_detail);
             slide.addTarget(R.id.detail_scroll);
             slide.addTarget(R.id.fab);
+            slide.addTarget(R.id.detailsCoordinatorLayout);
             slide.setInterpolator(new LinearOutSlowInInterpolator());
             getWindow().setEnterTransition(slide);
             getWindow().setExitTransition(slide);
