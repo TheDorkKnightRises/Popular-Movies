@@ -3,9 +3,11 @@ package thedorkknightrises.moviespop;
 
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences pref;
     int mCurCheckPosition = 0;
     private TextView label;
+    private BroadcastReceiver receiver;
 
     public static boolean isConnected(Context context) {
         if (context == null) {
@@ -180,6 +183,54 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
+    }
+
+    @Override
+    protected void onResume() {
+        IntentFilter i = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (isInitialStickyBroadcast()) {
+                    // Ignore this call to onReceive, as this is the sticky broadcast
+                } else {
+                    // Connectivity state has changed
+                    if (isConnected(getBaseContext())) {
+                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, "Connection restored", Snackbar.LENGTH_LONG);
+                        if (!pref.getString("sort", "popular").equals("fav"))
+                            snackbar.setAction(R.string.refresh, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    populateMovies();
+                                }
+                            });
+                        snackbar.show();
+                    } else if (!isConnected(getBaseContext())) {
+                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, "Connection lost", Snackbar.LENGTH_LONG);
+                        if (!pref.getString("sort", "popular").equals("fav"))
+                            snackbar.setAction(R.string.fav, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SharedPreferences.Editor edit = pref.edit();
+                                    edit.putString("sort", "fav");
+                                    label.setText(getString(R.string.fav));
+                                    edit.commit();
+                                    populateMovies();
+                                }
+                            });
+                        snackbar.show();
+                    }
+                }
+            }
+        };
+        registerReceiver(receiver, i);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(receiver);
+        super.onPause();
     }
 
     @Override

@@ -111,7 +111,7 @@ public class Details extends AppCompatActivity {
         sort = pref.getString("sort", "popular");
         anim = pref.getBoolean("anim_enabled", true);
 
-        if (!sort.equals("fav")) {
+        if (MainActivity.isConnected(this)) {
             tGrid = (RecyclerView) findViewById(R.id.tr_view);
             mReView = (RecyclerView) findViewById(R.id.reviews);
             tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -153,6 +153,7 @@ public class Details extends AppCompatActivity {
             setupEnterAnimation();
         }
         super.onStart();
+
     }
 
     public void onPosterClick(View v) {
@@ -172,15 +173,15 @@ public class Details extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
-                v.setTransitionName("image");
-                Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
+            v.setTransitionName("image");
+            Pair participants = new Pair<>(v, ViewCompat.getTransitionName(v));
 
-                ActivityOptionsCompat transitionActivityOptions =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                Details.this, participants);
+            ActivityOptionsCompat transitionActivityOptions =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            Details.this, participants);
 
-                ActivityCompat.startActivity(Details.this,
-                        i, transitionActivityOptions.toBundle());
+            ActivityCompat.startActivity(Details.this,
+                    i, transitionActivityOptions.toBundle());
 
         } else {
             ActivityOptionsCompat trans = ActivityOptionsCompat.makeSceneTransitionAnimation(Details.this);

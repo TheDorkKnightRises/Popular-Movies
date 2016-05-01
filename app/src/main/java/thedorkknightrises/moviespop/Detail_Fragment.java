@@ -116,6 +116,7 @@ public class Detail_Fragment extends android.app.Fragment {
 
         SharedPreferences pref = getActivity().getSharedPreferences("Prefs", getActivity().MODE_PRIVATE);
         sort = pref.getString("sort", "popular");
+        anim = pref.getBoolean("anim_enabled", true);
 
         if (savedInstanceState == null) {
             if (bundle != null) {
@@ -140,7 +141,7 @@ public class Detail_Fragment extends android.app.Fragment {
         }
 
         try {
-            if (!sort.equals("fav")) {
+            if (MainActivity.isConnected(getActivity())) {
                 tGrid = (RecyclerView) getActivity().findViewById(R.id.tr_view);
                 mReView = (RecyclerView) getActivity().findViewById(R.id.reviews);
             tGrid.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -286,9 +287,6 @@ public class Detail_Fragment extends android.app.Fragment {
             appBarLayout.setExpanded(true);
             i.putExtra("image", bg);
         }
-
-        SharedPreferences pref = getActivity().getSharedPreferences("Prefs", getActivity().MODE_PRIVATE);
-        anim = pref.getBoolean("anim_enabled", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && anim) {
 
