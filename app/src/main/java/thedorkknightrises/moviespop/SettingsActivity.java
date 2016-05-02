@@ -1,8 +1,11 @@
 package thedorkknightrises.moviespop;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -40,9 +43,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
         ArrayAdapter<String> spAdapter_bg= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, elements);
         sp_bg.setAdapter(spAdapter_bg);
-
-
-
     }
 
     @Override
@@ -147,6 +147,26 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
+
+    public void clearHistory(View v) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
+        dialog.setMessage(R.string.history_confirm)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getApplicationContext(),
+                                SuggestionsProvider.AUTHORITY, SuggestionsProvider.MODE);
+                        suggestions.clearHistory();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
 }

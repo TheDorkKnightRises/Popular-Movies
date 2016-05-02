@@ -59,6 +59,9 @@
     <string name="def_bgtoggle">Show backdrop in details view</string>
     <string name="palette_toggle">Enable dynamic coloring</string>
     <string name="def_palettetoggle">Automagically extracts and applies colors from the poster to the details screen</string>
+    <string name="history">Clear search history</string>
+    <string name="def_history">This action cannot be undone</string>
+    <string name="history_confirm">Are you sure you wish to delete your search history?</string>
     <string name="sdk_low">Requires Android 5.0+</string>
 
     <string name="synopsis">Synopsis</string>

@@ -495,6 +495,7 @@ public class MainActivity extends AppCompatActivity
                 (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryRefinementEnabled(true);
 
         return true;
     }

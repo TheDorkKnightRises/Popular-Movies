@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -86,6 +87,9 @@ public class SearchResultsActivity extends AppCompatActivity {
             //use the query to search your data somehow
             if (!query.trim().equals(""))
                 new SearchMovie(this, getSharedPreferences("Prefs", MODE_PRIVATE)).execute(query);
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    SuggestionsProvider.AUTHORITY, SuggestionsProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
         }
     }
 
@@ -214,6 +218,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 (android.support.v7.widget.SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryRefinementEnabled(true);
 
         return true;
     }
