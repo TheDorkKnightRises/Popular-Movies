@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +16,6 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by samri_000 on 4/1/2016.
@@ -57,15 +57,18 @@ public class ImageViewer extends AppCompatActivity {
         onBackPressed();
     }
 
-    public class getBitmap extends AsyncTask<String, Void, Bitmap> {
+    public class getBitmap extends AsyncTask<String, Void, Boolean> {
         String src;
+        File file = new File(getApplicationContext().getCacheDir(), image.substring(image.lastIndexOf('/'), image.length() - 4) + ".png");
 
         public getBitmap(String url) {
             src = url;
         }
 
         @Override
-        protected Bitmap doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
+            if (Looper.getMainLooper().equals(null))
+                Looper.prepare();
 
             try {
                 bmp = Glide
@@ -74,34 +77,40 @@ public class ImageViewer extends AppCompatActivity {
                         .asBitmap()
                         .into(-1, -1)
                         .get();
-            } catch (final ExecutionException e) {
-                e.printStackTrace();
-            } catch (final InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                File file = new File(getApplicationContext().getCacheDir(), image.substring(image.lastIndexOf('/'), image.length() - 4) + ".png");
                 FileOutputStream fOut = new FileOutputStream(file);
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                 fOut.flush();
                 fOut.close();
                 file.setReadable(true, false);
+                return true;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+            if (!b) {
                 progress.dismiss();
-                final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                Toast.makeText(getApplicationContext(), R.string.no_png, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, "Image from " + title + "\n" + image);
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent, "Share image link via"));
+                Toast.makeText(getApplicationContext(), R.string.no_png, Toast.LENGTH_SHORT).show();
+            } else {
+                progress.dismiss();
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT, "Image from " + title);
                 intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
                 intent.setType("image/png");
                 startActivity(Intent.createChooser(intent, "Share image via"));
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), R.string.no_png, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, image);
-                intent.setType("text/plain");
-                startActivity(Intent.createChooser(intent, "Share image link via"));
             }
-            return bmp;
         }
+
 
     }
 

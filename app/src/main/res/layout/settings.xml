@@ -64,6 +64,15 @@
              android:textColor="#ffffffff"
              android:textSize="@dimen/text_med" />
 
+         <Spinner
+             android:id="@+id/spinner_thumb"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentEnd="true"
+             android:layout_alignParentRight="true"
+             android:layout_alignTop="@id/res_setting"
+             android:layout_marginRight="@dimen/horizontal_padding" />
+
          <TextView
              android:id="@+id/def_text_thumb"
              android:layout_width="wrap_content"
@@ -75,14 +84,6 @@
              android:textColor="#afffffff"
              android:textSize="@dimen/text_small" />
 
-         <Spinner
-             android:id="@+id/spinner_thumb"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentEnd="true"
-             android:layout_alignParentRight="true"
-             android:layout_alignTop="@id/res_setting"
-             android:layout_marginRight="@dimen/horizontal_padding" />
      </RelativeLayout>
     </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -187,6 +188,16 @@
                     android:textColor="#ffffffff"
                     android:textSize="@dimen/text_med" />
 
+                <Spinner
+                    android:id="@+id/spinner_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/res_setting_bg"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/horizontal_padding" />
+
                 <TextView
                     android:id="@+id/def_text_bg"
                     android:layout_width="wrap_content"
@@ -198,15 +209,6 @@
                     android:textColor="#afffffff"
                     android:textSize="@dimen/text_small" />
 
-                <Spinner
-                    android:id="@+id/spinner_bg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@id/res_setting_bg"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/horizontal_padding" />
             </RelativeLayout>
 
             <RelativeLayout

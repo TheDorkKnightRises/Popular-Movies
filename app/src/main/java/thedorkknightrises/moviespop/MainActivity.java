@@ -12,8 +12,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -42,6 +44,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static SwipeRefreshLayout swipeRefreshLayout;
+    public static CoordinatorLayout coordinatorLayout;
     public static Boolean mDualPane;
     public static Boolean widthFlag;
     public static ArrayList<MovieObj> movieResults = new ArrayList<>();
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
+    }
+
+    public static CoordinatorLayout getLayout() {
+        return coordinatorLayout;
     }
 
     public static SwipeRefreshLayout getSwipeRefreshLayout() {
@@ -85,16 +92,36 @@ public class MainActivity extends AppCompatActivity
         if (Intent.ACTION_VIEW.equals(action)) {
             final List<String> segments = intent.getData().getPathSegments();
             if (segments.size() >= 1) {
-                String str = segments.get(1);
+                final String str = segments.get(1);
                 int end = (str.indexOf('-') == (-1)) ? str.length() : str.indexOf('-');
-                id = Integer.parseInt(str.substring(0, end));
+                try {
+                    id = Integer.parseInt(str.substring(0, end));
+
+                    // Check what fragment is currently shown, replace if needed.
+                    Detail_Fragment details = (Detail_Fragment) getFragmentManager()
+                            .findFragmentById(R.id.details);
+                    FragmentTransaction ft = getFragmentManager()
+                            .beginTransaction();
+                    new FetchMovie(this, findViewById(R.id.blankText), details, ft, id, getSharedPreferences("Prefs", MODE_PRIVATE)).execute("fetch");
+                } catch (NumberFormatException e) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
+                    dialog.setMessage(R.string.invalid_url)
+                            .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.browser, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.themoviedb.org/movie/" + str));
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
             }
-            // Check what fragment is currently shown, replace if needed.
-            Detail_Fragment details = (Detail_Fragment) getFragmentManager()
-                    .findFragmentById(R.id.details);
-            FragmentTransaction ft = getFragmentManager()
-                    .beginTransaction();
-            new FetchMovie(this, findViewById(R.id.blankText), details, ft, id, getSharedPreferences("Prefs", MODE_PRIVATE)).execute("fetch");
         }
     }
 
@@ -110,7 +137,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -202,7 +231,7 @@ public class MainActivity extends AppCompatActivity
                     if (isConnected(getApplicationContext()) || pref.getString("sort", "popular").equals("fav")) {
                         populateMovies();
                     } else {
-                        Snackbar.make(drawer, R.string.refresh_error, Snackbar.LENGTH_LONG)
+                        Snackbar.make(coordinatorLayout, R.string.refresh_error, Snackbar.LENGTH_LONG)
                                 .show();
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -222,7 +251,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     // Connectivity state has changed
                     if (isConnected(getBaseContext())) {
-                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, R.string.conn, Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.conn, Snackbar.LENGTH_LONG);
                         if (!pref.getString("sort", "popular").equals("fav"))
                             snackbar.setAction(R.string.refresh, new View.OnClickListener() {
                                 @Override
@@ -232,7 +261,7 @@ public class MainActivity extends AppCompatActivity
                             });
                         snackbar.show();
                     } else if (!isConnected(getBaseContext())) {
-                        Snackbar snackbar = Snackbar.make(swipeRefreshLayout, R.string.no_conn, Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.no_conn, Snackbar.LENGTH_LONG);
                         if (!pref.getString("sort", "popular").equals("fav"))
                             snackbar.setAction(R.string.fav, new View.OnClickListener() {
                                 @Override
@@ -520,7 +549,7 @@ public class MainActivity extends AppCompatActivity
             mGridView.setAdapter(mAdapter);
             swipeRefreshLayout.setRefreshing(false);
             if (movieResults.isEmpty()) {
-                Snackbar.make(swipeRefreshLayout, R.string.no_fav, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout, R.string.no_fav, Snackbar.LENGTH_LONG).show();
             }
         } else new FetchSearchResults(this, mGridView, movieResults, pref).execute("discover");
 

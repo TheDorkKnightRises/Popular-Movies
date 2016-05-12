@@ -126,7 +126,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
             String error;
                 error = context.getString(R.string.network);
 
-            Snackbar snackbar = Snackbar.make(gridView, error, Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(MainActivity.getLayout(), error, Snackbar.LENGTH_LONG);
             snackbar.show();
             e.printStackTrace();
         }
@@ -148,7 +148,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
         JSONObject searchResult = new JSONObject(searchJSONstr);
         int totalResults = searchResult.getInt("total_results");
         if (totalResults == 0) {
-            Snackbar snack = Snackbar.make(gridView, context.getString(R.string.no_results), Snackbar.LENGTH_LONG);
+            Snackbar snack = Snackbar.make(MainActivity.getLayout(), context.getString(R.string.no_results), Snackbar.LENGTH_LONG);
             snack.setAction("Action", null);
             snack.show();
         }

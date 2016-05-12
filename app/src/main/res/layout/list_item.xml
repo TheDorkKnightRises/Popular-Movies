@@ -27,12 +27,14 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical"
-            android:padding="@dimen/vertical_margin_half">
+            android:padding="@dimen/horizontal_margin_half">
 
             <TextView
                 android:id="@+id/list_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textStyle="bold" />
 
             <TextView
