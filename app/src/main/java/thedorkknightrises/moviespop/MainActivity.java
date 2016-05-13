@@ -1,6 +1,7 @@
 package thedorkknightrises.moviespop;
 
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -15,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -36,8 +38,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static SwipeRefreshLayout swipeRefreshLayout;
     public static CoordinatorLayout coordinatorLayout;
+    public static NavigationView navigationView;
     public static Boolean mDualPane;
     public static Boolean widthFlag;
     public static ArrayList<MovieObj> movieResults = new ArrayList<>();
@@ -74,6 +81,10 @@ public class MainActivity extends AppCompatActivity
 
     public static SwipeRefreshLayout getSwipeRefreshLayout() {
         return swipeRefreshLayout;
+    }
+
+    public static NavigationView getNavigationView() {
+        return navigationView;
     }
 
     public static Boolean getmDualPane() {
@@ -116,8 +127,18 @@ public class MainActivity extends AppCompatActivity
                             .setNegativeButton(R.string.browser, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.themoviedb.org/movie/" + str));
-                                    startActivity(i);
+                                    Uri uri = Uri.parse("https://www.themoviedb.org/movie/" + str);
+                                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                                    builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+                                    CustomTabsIntent customTabsIntent = builder.build();
+                                    CustomTabActivityHelper.openCustomTab(MainActivity.this, customTabsIntent, uri,
+                                            new CustomTabActivityHelper.CustomTabFallback() {
+                                                @Override
+                                                public void openUri(Activity activity, Uri uri) {
+                                                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                                                    startActivity(i);
+                                                }
+                                            });
                                 }
                             })
                             .show();
@@ -146,12 +167,13 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         mHelper = new MovieDbHelper(this);
 
         pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+
 
         //  Declare a new thread to do a preference check
         Thread t = new Thread(new Runnable() {
@@ -311,6 +333,21 @@ public class MainActivity extends AppCompatActivity
         };
         registerReceiver(receiver, i);
         super.onResume();
+
+        View header = navigationView.getHeaderView(0);
+        ImageView acc_image = (ImageView) header.findViewById(R.id.acc_image_nav);
+        Glide.with(this)
+                .load(new File(getApplication().getCacheDir(), pref.getString("acc_image", "") + ".png"))
+                .error(R.drawable.ic_account_circle_white_64dp)
+                .into(acc_image);
+
+        if (!pref.getString("session_id", "0").equals("0")) {
+            ((TextView) header.findViewById(R.id.headerText1)).setText(getResources().getString(R.string.signed_in) + pref.getString("username", ""));
+            ((TextView) header.findViewById(R.id.headerText2)).setText(getResources().getString(R.string.sign_out_nav));
+        } else {
+            ((TextView) header.findViewById(R.id.headerText1)).setText(getResources().getString(R.string.sign_in_nav));
+            ((TextView) header.findViewById(R.id.headerText2)).setText(getResources().getString(R.string.nav_sec));
+        }
     }
 
     @Override
@@ -567,7 +604,6 @@ public class MainActivity extends AppCompatActivity
 
         Intent i = new Intent(MainActivity.this, Login.class);
         startActivity(i);
-
     }
 
     public void populateMovies() {

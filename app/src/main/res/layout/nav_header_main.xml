@@ -1,40 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    android:gravity="bottom"
-    android:paddingBottom="@dimen/horizontal_margin_half"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_height="@dimen/nav_header_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="#99000000"
+        android:scaleType="centerCrop"
+        android:src="@drawable/header" />
+
+    <LinearLayout
+        android:id="@+id/nav_header_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/horizontal_margin_half">
+
+        <TextView
+            android:id="@+id/headerText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:onClick="login"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="@string/sign_in"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/headerText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="login"
+            android:paddingBottom="@dimen/horizontal_margin_half"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="@string/nav_sec" />
+
+    </LinearLayout>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/acc_image_nav"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_above="@id/nav_header_button"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-        android:onClick="login"
-        android:src="@drawable/ic_account_circle_white_64dp" />
-
-    <TextView
-        android:id="@+id/headerText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_marginTop="4dp"
-        android:onClick="login"
-        android:text="@string/sign_in"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/headerText2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/headerText1"
-        android:onClick="login"
-        android:text="@string/nav_sec" />
+        android:src="@drawable/ic_account_circle_white_64dp"
+        app:riv_corner_radius="32dp" />
 
 </RelativeLayout>

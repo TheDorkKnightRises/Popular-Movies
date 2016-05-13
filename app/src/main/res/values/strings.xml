@@ -20,8 +20,6 @@
     <string name="desc2">Developed by Samriddha Basu</string>
     <string name="desc3">Powered by The Movie Database</string>
     <string name="desc4">Icon credits: Moonshine Icon Pack by Pedro Peguero Jr. (under Creative Commons 4.0 License)</string>
-    <string name="nav_sec">Tap here to learn more</string>
-    <string name="sign_in_nav">Sign into TMDb</string>
     <string name="search_hint">Search</string>
     <string name="credits">More</string>
     <string name="intro">Replay Intro</string>
@@ -87,7 +85,7 @@
 
     <string name="no_trailers">No trailers found :(</string>
     <string name="no_reviews">No reviews found :(</string>
-    <string name="author">Review by:\ </string>
+    <string name="author">Review by: \ </string>
     <string name="unknown">Unknown</string>
     <string name="expandReview">(Tap the text to view full review)</string>
 
@@ -96,10 +94,16 @@
 
     <string name="blank_fragment">Tap a movie on the grid to view its details here</string>
 
-    <string name="not_signed_in">Currently not signed in</string>
+
+    <string name="nav_sec">Tap here to learn more</string>
+    <string name="sign_in_nav">Sign into TMDb</string>
+    <string name="sign_out_nav">Tap here to sign out</string>
+    <string name="signed_in">Signed in as \ </string>
     <string name="user_blank">Not signed in</string>
+    <string name="uid">ID: \ </string>
     <string name="acc_desc">Sign in to your themoviedb.org account to get the optimum experience.\n- Rate movies\n- Review movies\n- Sync your Favorites list\n\nBETA: None of these features implemented yet.\n\nPress \'Sign In\' button to be taken to the TMDb account page where you can sign up for an account or sign into an existing one.</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
     <string name="acc_more">Learn more</string>
     <string name="acc_hide_more">Hide info</string>
 

@@ -100,7 +100,24 @@
 
         <activity
             android:name=".Login"
-            android:theme="@style/AppTheme.PopupOverlay" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.PopupOverlay"></activity>
+
+        <activity
+            android:name=".LoginStub"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.PopupOverlay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="log.in"
+                    android:scheme="pomov" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".SearchResultsActivity"

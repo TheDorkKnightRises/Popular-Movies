@@ -170,9 +170,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
 
             movieResults.add(new MovieObj(id, title, year, vote_avg, "https://image.tmdb.org/t/p/" + res + posterUrl, plot, "https://image.tmdb.org/t/p/" + res_bg + bgUrl));
         }
-
         return movieResults;
-
     }
 
     @Override
