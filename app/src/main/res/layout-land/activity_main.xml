@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <android.support.design.widget.AppBarLayout
+                android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -40,6 +41,7 @@
                 layout="@layout/content_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="-50dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:layout="@layout/content_main" />
 

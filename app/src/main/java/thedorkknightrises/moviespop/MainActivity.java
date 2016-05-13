@@ -34,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         View detailsFrame = findViewById(R.id.details);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator);
@@ -182,6 +183,36 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         mGridView = (GridView) findViewById(R.id.gridview);
+        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int mLastFirstVisibleItem;
+            private View v= findViewById(R.id.main_toolbar);
+            private View content= findViewById(R.id.contentPane);
+            private Boolean b= false;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(mLastFirstVisibleItem<firstVisibleItem&&!b)
+                {
+                    float d= -toolbar.getBottom();
+                    v.animate().translationY(d).start();
+                    content.animate().translationY(d).start();
+
+                    b=true;
+                }
+                if(mLastFirstVisibleItem>firstVisibleItem&&b)
+                {
+                    v.animate().translationY(0).start();
+                    content.animate().translationY(0).start();
+
+                    b=false;
+                }
+                mLastFirstVisibleItem=firstVisibleItem;
+            }
+        });
 
         String sort = pref.getString("sort", "popular");
 

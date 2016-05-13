@@ -79,10 +79,12 @@
         <activity
             android:name=".Details"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ImageViewer"
+            android:launchMode="singleTop"
             android:parentActivityName=".Details"
             android:theme="@style/AppTheme.Transparent">
 
