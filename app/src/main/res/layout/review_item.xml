@@ -4,11 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/horizontal_margin_half"
+    android:layout_marginTop="@dimen/horizontal_margin_half"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="2dp">
+
+    <ImageView
+        android:id="@+id/pop_out_review"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_launch_white_24px" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,17 +29,17 @@
             android:id="@+id/review_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/horizontal_margin_half"
             android:paddingLeft="@dimen/horizontal_margin_half"
             android:paddingRight="@dimen/horizontal_margin_half"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/review_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
-            android:clickable="true"
             android:ellipsize="end"
             android:maxLines="12"
             android:padding="@dimen/horizontal_padding"

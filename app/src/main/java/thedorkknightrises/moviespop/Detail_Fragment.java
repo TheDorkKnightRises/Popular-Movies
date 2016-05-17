@@ -33,6 +33,10 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import thedorkknightrises.moviespop.db.MovieDbHelper;
+import thedorkknightrises.moviespop.network.FetchReviews;
+import thedorkknightrises.moviespop.network.FetchTrailers;
+
 
 public class Detail_Fragment extends android.app.Fragment {
     static Bundle bundle;

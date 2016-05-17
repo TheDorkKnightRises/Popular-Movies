@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import thedorkknightrises.moviespop.MovieObj;
 
 /**
  * Created by samri_000 on 5/1/2016.

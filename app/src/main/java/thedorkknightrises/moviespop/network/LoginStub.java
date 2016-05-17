@@ -1,8 +1,9 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.network;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,6 +30,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.List;
+
+import thedorkknightrises.moviespop.Login;
+import thedorkknightrises.moviespop.R;
 
 /**
  * Created by samri_000 on 5/13/2016.
@@ -159,17 +164,32 @@ public class LoginStub extends Activity {
 
             JSONObject tokenResult = new JSONObject(JSONstr);
             String session_id = tokenResult.getString(SESSION);
+
             return session_id;
         }
 
         @Override
         protected void onPostExecute(String session) {
             super.onPostExecute(session);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("session_id", session);
-            editor.commit();
-            Log.d("Session ID", session);
-            new User(context).execute(session);
+            if (session != null) {
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id", session);
+                editor.commit();
+                Log.d("Session ID", session);
+                new User(context).execute(session);
+            } else {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AppTheme_PopupOverlay);
+                dialog.setMessage(R.string.unauth)
+                        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                progress.dismiss();
+                                finish();
+                            }
+                        })
+                        .show();
+            }
         }
     }
 

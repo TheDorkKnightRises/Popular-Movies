@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.network;
 
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -23,6 +23,11 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+
+import thedorkknightrises.moviespop.Detail_Fragment;
+import thedorkknightrises.moviespop.Details;
+import thedorkknightrises.moviespop.MainActivity;
+import thedorkknightrises.moviespop.R;
 
 /**
  * Created by samri_000 on 5/1/2016.

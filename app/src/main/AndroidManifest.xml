@@ -104,7 +104,7 @@
             android:theme="@style/AppTheme.PopupOverlay"></activity>
 
         <activity
-            android:name=".LoginStub"
+            android:name=".network.LoginStub"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.PopupOverlay">
             <intent-filter>

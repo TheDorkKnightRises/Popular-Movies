@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.network;
 
 import android.content.Context;
 import android.net.Uri;
@@ -19,6 +19,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import thedorkknightrises.moviespop.R;
+import thedorkknightrises.moviespop.TrailerAdapter;
+import thedorkknightrises.moviespop.TrailerObj;
 
 /**
  * Created by samri_000 on 4/14/2016.

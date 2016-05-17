@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.customtabs;
 
 // Copyright 2015 Google Inc. All Rights Reserved.
 //

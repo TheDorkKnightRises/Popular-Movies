@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.db;
 
 import android.provider.BaseColumns;
 

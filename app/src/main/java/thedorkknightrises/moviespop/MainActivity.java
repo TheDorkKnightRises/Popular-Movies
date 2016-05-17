@@ -3,7 +3,6 @@ package thedorkknightrises.moviespop;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +29,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +37,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,12 +46,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import thedorkknightrises.moviespop.customtabs.CustomTabActivityHelper;
+import thedorkknightrises.moviespop.db.MovieDbHelper;
+import thedorkknightrises.moviespop.network.FetchMovie;
+import thedorkknightrises.moviespop.network.FetchSearchResults;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static SwipeRefreshLayout swipeRefreshLayout;
     public static CoordinatorLayout coordinatorLayout;
     public static NavigationView navigationView;
+    public static RelativeLayout noNetView;
+    public static RelativeLayout noFavView;
     public static Boolean mDualPane;
     public static Boolean widthFlag;
     public static ArrayList<MovieObj> movieResults = new ArrayList<>();
@@ -83,8 +89,8 @@ public class MainActivity extends AppCompatActivity
         return swipeRefreshLayout;
     }
 
-    public static NavigationView getNavigationView() {
-        return navigationView;
+    public static RelativeLayout getNoNetView() {
+        return noNetView;
     }
 
     public static Boolean getmDualPane() {
@@ -203,6 +209,8 @@ public class MainActivity extends AppCompatActivity
         widthFlag = (this.getResources().getConfiguration().screenWidthDp < 720);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        noNetView = (RelativeLayout) findViewById(R.id.no_net);
+        noFavView = (RelativeLayout) findViewById(R.id.no_fav);
 
         mGridView = (GridView) findViewById(R.id.gridview);
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -496,21 +504,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AppTheme_PopupOverlay);
-            dialog.setMessage(R.string.exit)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            exit();
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+            exit();
         }
     }
 
@@ -534,30 +528,35 @@ public class MainActivity extends AppCompatActivity
                 edit.putString("sort", "fav");
                 label.setText(getString(R.string.fav));
                 edit.commit();
+                noNetView.setVisibility(View.GONE);
                 populateMovies();
                 break;
             case R.id.nav_pop:
                 edit.putString("sort", "popular");
                 label.setText(getString(R.string.pop));
                 edit.commit();
+                noFavView.setVisibility(View.GONE);
                 populateMovies();
                 break;
             case R.id.nav_high:
                 edit.putString("sort", "top_rated");
                 label.setText(getString(R.string.high));
                 edit.commit();
+                noFavView.setVisibility(View.GONE);
                 populateMovies();
                 break;
             case R.id.nav_up:
                 edit.putString("sort", "upcoming");
                 label.setText(getString(R.string.up));
                 edit.commit();
+                noFavView.setVisibility(View.GONE);
                 populateMovies();
                 break;
             case R.id.nav_now:
                 edit.putString("sort", "now_playing");
                 label.setText(R.string.now);
                 edit.commit();
+                noFavView.setVisibility(View.GONE);
                 populateMovies();
                 break;
             case R.id.nav_about: {
@@ -585,16 +584,22 @@ public class MainActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main_menu, menu);
 
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryRefinementEnabled(true);
-
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int itemId = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (itemId == R.id.search) {
+            Intent i = new Intent(MainActivity.this, SearchResultsActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void login(View v) {
@@ -616,8 +621,10 @@ public class MainActivity extends AppCompatActivity
             mGridView.setAdapter(mAdapter);
             swipeRefreshLayout.setRefreshing(false);
             if (movieResults.isEmpty()) {
+                noFavView.setVisibility(View.VISIBLE);
                 Snackbar.make(coordinatorLayout, R.string.no_fav, Snackbar.LENGTH_LONG).show();
-            }
+            } else noFavView.setVisibility(View.GONE);
+
         } else new FetchSearchResults(this, mGridView, movieResults, pref).execute("discover");
 
     }

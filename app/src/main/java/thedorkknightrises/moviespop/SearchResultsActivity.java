@@ -209,7 +209,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main_menu, menu);
+        inflater.inflate(R.menu.search_menu, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -219,6 +219,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         searchView.setQueryRefinementEnabled(true);
+        searchView.onActionViewExpanded();
+        searchView.setIconified(false);
 
         return true;
     }

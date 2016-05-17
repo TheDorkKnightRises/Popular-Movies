@@ -68,12 +68,14 @@
     <string name="trailer">Trailers</string>
     <string name="review">Reviews</string>
 
+    <string name="no_network">No network connection :(</string>
     <string name="network">Unable to fetch content from server. Check your network status</string>
     <string name="refresh_error">Failed to  refresh content from server. Check your network status</string>
     <string name="no_results">No results returned</string>
     <string name="invalid_url">No movie found at given URL</string>
     <string name="browser">Open in Browser</string>
-    <string name="no_fav">No Favorites to show</string>
+    <string name="no_fav">No favorites to show</string>
+    <string name="no_fav_text">No favorites yet\nAdd favorites by tapping the FAB when viewing a movie\'s details</string>
     <string name="content">Failed to retrieve all content. Data does not exist in database or connection lost</string>
     <string name="conn">Connection restored</string>
     <string name="no_conn">Connection lost</string>
@@ -87,7 +89,6 @@
     <string name="no_reviews">No reviews found :(</string>
     <string name="author">Review by: \ </string>
     <string name="unknown">Unknown</string>
-    <string name="expandReview">(Tap the text to view full review)</string>
 
     <string name="fav_error">Error fetching favorites</string>
     <string name="no_login">TMDb sign-in coming in the next major update :D</string>
@@ -106,5 +107,6 @@
     <string name="sign_out">Sign out</string>
     <string name="acc_more">Learn more</string>
     <string name="acc_hide_more">Hide info</string>
+    <string name="unauth">Account access not granted</string>
 
 </resources>

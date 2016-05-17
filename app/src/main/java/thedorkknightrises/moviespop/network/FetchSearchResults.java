@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -20,6 +21,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import thedorkknightrises.moviespop.GridViewAdapter;
+import thedorkknightrises.moviespop.MainActivity;
+import thedorkknightrises.moviespop.MovieObj;
+import thedorkknightrises.moviespop.R;
 
 /**
  * Created by samri_000 on 3/26/2016.
@@ -128,6 +134,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
 
             Snackbar snackbar = Snackbar.make(MainActivity.getLayout(), error, Snackbar.LENGTH_LONG);
             snackbar.show();
+
             e.printStackTrace();
         }
 
@@ -178,6 +185,12 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
         super.onPostExecute(movies);
 
         MainActivity.getSwipeRefreshLayout().setRefreshing(false);
+        View noNet = MainActivity.getNoNetView();
+        if (movies == null) {
+            if (noNet.getVisibility() == View.GONE)
+                noNet.setVisibility(View.VISIBLE);
+        } else if (noNet.getVisibility() == View.VISIBLE)
+            noNet.setVisibility(View.GONE);
         try {
             searchAdapter = new GridViewAdapter(context, movies);
             gridView.setAdapter(searchAdapter);

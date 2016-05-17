@@ -1,4 +1,4 @@
-package thedorkknightrises.moviespop;
+package thedorkknightrises.moviespop.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +20,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import thedorkknightrises.moviespop.R;
+import thedorkknightrises.moviespop.ReviewAdapter;
+import thedorkknightrises.moviespop.ReviewObj;
 
 /**
  * Created by samri_000 on 4/15/2016.
