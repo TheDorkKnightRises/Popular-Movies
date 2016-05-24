@@ -48,23 +48,25 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         // - replace the contents of the view with that element
         final ReviewObj review = rArray.get(position);
         holder.rText.setText(review.rText);
-        if (!review.rAuth.equals(""))
+        if (!review.rAuth.equals("")) {
             holder.rAuth.setText(review.rAuth);
-        else
-            holder.rAuth.setVisibility(View.GONE);
-
-        holder.rButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder reviewDialog = new AlertDialog.Builder(context, R.style.AppTheme_PopupOverlay);
-                reviewDialog.setMessage(review.getRText())
-                        .setTitle(context.getString(R.string.author)+review.getRAuth())
-                        .show();
+            holder.rButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder reviewDialog = new AlertDialog.Builder(context, R.style.AppTheme_PopupOverlay);
+                    reviewDialog.setMessage(review.getRText())
+                            .setTitle(context.getString(R.string.author) + review.getRAuth())
+                            .show();
                 }
             });
+        } else {
+            holder.rAuth.setVisibility(View.GONE);
+            holder.rButton.setVisibility(View.GONE);
+        }
+
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         if (rArray == null) {

@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:autoLink="all"
             android:ellipsize="end"
-            android:maxLines="12"
+            android:maxLines="10"
             android:padding="@dimen/horizontal_padding"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
