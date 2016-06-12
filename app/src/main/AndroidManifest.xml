@@ -96,12 +96,12 @@
 
         <activity
             android:name=".Intro"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/Theme.Intro" />
 
         <activity
             android:name=".Login"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.PopupOverlay"></activity>
+            android:theme="@style/AppTheme.PopupOverlay" />
 
         <activity
             android:name=".network.LoginStub"

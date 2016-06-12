@@ -35,11 +35,13 @@
 
     <string name="details">Details</string>
     <string name="sorting">Sorting</string>
+    <string name="thats_all">That\'s all!</string>
     <string name="intro1">This app suggests movies for you to watch</string>
-    <string name="intro2">Tap a movie poster on the grid view to open detailed view including synopsis, ratings, reviews and trailers</string>
-    <string name="intro3">Use the navigation drawer to select sorting criteria</string>
+    <string name="intro2">Use the navigation drawer to select sorting criteria</string>
+    <string name="intro3">Tap a movie poster on the grid view to open detailed view including synopsis, ratings, reviews and trailers</string>
     <string name="intro4">In the details view, tap a movie poster or backdrop to view full screen</string>
     <string name="intro5">Tap the Floating Action Button to add to Favorites. Favorites are stored offline!</string>
+    <string name="intro_last">You can play this intro again from the About page</string>
 
     <string name="head_general">Miscellaneous settings</string>
     <string name="anim_setting">Enable animations</string>

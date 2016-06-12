@@ -1,48 +1,78 @@
 package thedorkknightrises.moviespop;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
-import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.heinrichreimersoftware.materialintro.app.IntroActivity;
+import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 
 /**
  * Created by samri_000 on 2/20/2016.
  */
 
-public class Intro extends AppIntro {
+public class Intro extends IntroActivity {
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
-        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.app_name), getResources().getString(R.string.intro1), R.drawable.ic_launcher, Color.argb(255,48,48,48)));
-        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.details), getResources().getString(R.string.intro2), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
-        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.sorting), getResources().getString(R.string.intro3), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
-        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.details), getResources().getString(R.string.intro4), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
-        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.fav), getResources().getString(R.string.intro5), R.drawable.ic_launcher, Color.argb(255, 48, 48, 48)));
-        showStatusBar(true);
-        setZoomAnimation();
+        super.onCreate(savedInstanceState);
 
+        /* Enable/disable skip button */
+        setButtonBackVisible(true);
+        setButtonBackFunction(BUTTON_BACK_FUNCTION_SKIP);
+
+        /* Enable/disable finish button */
+        setButtonNextVisible(true);
+        setButtonNextFunction(BUTTON_NEXT_FUNCTION_NEXT_FINISH);
+
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.app_name)
+                .description(R.string.intro1)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.sorting)
+                .description(R.string.intro2)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.details)
+                .description(R.string.intro3)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.details)
+                .description(R.string.intro4)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.fav)
+                .description(R.string.intro5)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.thats_all)
+                .description(R.string.intro_last)
+                .image(R.drawable.ic_launcher)
+                .background(R.color.background)
+                .backgroundDark(R.color.background_dark)
+                .build());
     }
 
-    @Override
-    public void onSkipPressed() {
-        finish();
-    }
-
-    @Override
-    public void onNextPressed() {
-        // Do something when users tap on Next button.
-    }
-
-    @Override
-    public void onDonePressed() {
-        finish();
-    }
-
-    @Override
-    public void onSlideChanged() {
-        // Do something when slide is changed
-    }
 }
 
