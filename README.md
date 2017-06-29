@@ -2,13 +2,13 @@
 
 Popular Movie suggestion app developed as part of the Udacity Android Developer Nanodegree programme
 
-#####Available on XDA Labs! Report issues here: [Forum link](http://forum.xda-developers.com/android/apps-games/app-popular-movies-wip-t3350388)
+##### Available on XDA Labs! Report issues here: [Forum link](http://forum.xda-developers.com/android/apps-games/app-popular-movies-wip-t3350388)
 
-###Instructions
+### Instructions
 >This app is powered by [The Movie Database (TMDb)](https://www.themoviedb.org/), and requires an API key to perform requests and fetch data. You can obtain an API key by signing up for an TMDb account [here](https://www.themoviedb.org/account/signup).
 >After obtaining your key and syncing the source, add a string resource with name="api_key" storing your API key, before building the app.
 
-###License
+### License
 
     The MIT License (MIT)
 
@@ -20,7 +20,7 @@ Popular Movie suggestion app developed as part of the Udacity Android Developer 
 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
 
-###Screenshots
+### Screenshots
 
 <img src="http://imgur.com/XFV7hVj.jpg" 
 alt="Intro" width="48%" border="2" />
