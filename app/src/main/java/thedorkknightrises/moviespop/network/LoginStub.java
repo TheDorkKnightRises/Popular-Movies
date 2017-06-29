@@ -93,7 +93,7 @@ public class LoginStub extends Activity {
             String JSONstr = null;
             final String BASE_URL =
                     "http://api.themoviedb.org/3/authentication/session/new";
-            final String API_KEY = context.getString(R.string.api_key);
+            final String API_KEY = context.getString(R.string.moviedb_api_key);
             final String API_KEY_PARAM = "api_key";
             final String TOKEN_PARAM = "request_token";
             final String TOKEN = token;
@@ -217,7 +217,7 @@ public class LoginStub extends Activity {
             String JSONstr = null;
             final String BASE_URL =
                     "http://api.themoviedb.org/3/account";
-            final String API_KEY = context.getString(R.string.api_key);
+            final String API_KEY = context.getString(R.string.moviedb_api_key);
             final String API_KEY_PARAM = "api_key";
             final String SESSION_PARAM = "session_id";
             final String SESSION = session;

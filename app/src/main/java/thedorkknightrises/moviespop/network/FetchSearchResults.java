@@ -65,7 +65,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<MovieO
         String searchJSONstr = null;
         final String SEARCH_BASE_URL =
                 "https://api.themoviedb.org/3/movie";
-        final String API_KEY = context.getString(R.string.api_key);
+        final String API_KEY = context.getString(R.string.moviedb_api_key);
         final String API_KEY_PARAM = "api_key";
 
         String sort;

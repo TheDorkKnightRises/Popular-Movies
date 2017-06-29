@@ -16,7 +16,7 @@
 
         <provider
             android:name=".SuggestionsProvider"
-            android:authorities="thedorkknightrises.moviespop.SuggestionsProvider" />
+            android:authorities="${applicationId}.SuggestionsProvider" />
 
         <activity
             android:name=".MainActivity"
@@ -42,7 +42,7 @@
                     android:scheme="https" />
                 <data
                     android:host="www.themoviedb.org"
-                    android:pathPrefix="/movies/"
+                    android:pathPrefix="/movie/"
                     android:scheme="http" />
             </intent-filter>
 
@@ -106,7 +106,7 @@
         <activity
             android:name=".network.LoginStub"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.PopupOverlay">
+            android:theme="@style/AppTheme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

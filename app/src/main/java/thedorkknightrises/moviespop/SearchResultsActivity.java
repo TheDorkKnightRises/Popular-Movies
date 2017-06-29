@@ -257,7 +257,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             String searchJSONstr = null;
             final String SEARCH_BASE_URL =
                     "https://api.themoviedb.org/3/search/movie";
-            final String API_KEY = context.getString(R.string.api_key);
+            final String API_KEY = context.getString(R.string.moviedb_api_key);
             final String API_KEY_PARAM = "api_key";
             final String QUERY_PARAM = "query";
 

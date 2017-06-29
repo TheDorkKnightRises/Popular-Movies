@@ -17,11 +17,15 @@
     <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/background</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.PopupOverlay" parent="Theme.AppCompat.Dialog.Alert"/>
 
     <style name="AppTheme.Transparent" parent="AppTheme.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
@@ -31,7 +35,7 @@
     <style name="Button" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:padding">4dp</item>
     </style>
-    
+
     <style name="TextAppearance.Medium" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>

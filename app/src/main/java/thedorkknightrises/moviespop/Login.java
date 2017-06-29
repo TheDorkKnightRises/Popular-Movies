@@ -114,7 +114,7 @@ public class Login extends Activity {
             String JSONstr = null;
             final String BASE_URL =
                     "http://api.themoviedb.org/3/authentication/token/new";
-            final String API_KEY = context.getString(R.string.api_key);
+            final String API_KEY = context.getString(R.string.moviedb_api_key);
             final String API_KEY_PARAM = "api_key";
 
             buildUri = Uri.parse(BASE_URL).buildUpon()

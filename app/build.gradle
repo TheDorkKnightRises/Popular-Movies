@@ -8,13 +8,16 @@ android {
         applicationId "thedorkknightrises.moviespop"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 9
-        versionName "0.9.6.4"
+        versionCode 10
+        versionName "0.9.7"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
         }
     }
 }
